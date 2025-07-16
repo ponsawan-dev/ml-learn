@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ประเภทของโมเดล AI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Sarabun', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+        
+        .model-card {
+            transition: all 0.3s ease;
+        }
+        
+        .model-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .content-panel {
+            opacity: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.5s ease;
+        }
+        
+        .content-panel.active {
+            opacity: 1;
+            max-height: 2000px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mx-auto px-4 py-8">
+        <header class="text-center mb-12">
+            <h1 class="text-4xl font-bold text-indigo-800 mb-4">ประเภทของโมเดล AI</h1>
+            <p class="text-lg text-gray-600">เรียนรู้เกี่ยวกับประเภทต่างๆ ของโมเดล AI และการประยุกต์ใช้งาน</p>
+        </header>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+            <!-- โมเดลเชิงทำนาย -->
+            <div class="model-card bg-white rounded-xl shadow-lg overflow-hidden cursor-pointer" data-model="predictive">
+                <div class="h-32 bg-gradient-to-r from-blue-500 to-indigo-600 flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                    </svg>
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">โมเดลเชิงทำนาย</h3>
+                    <p class="text-gray-600">ทำนายผลลัพธ์ในอนาคตจากข้อมูลในอดีต</p>
+                </div>
+            </div>
+            
+            <!-- โมเดลเชิงพรรณนา -->
+            <div class="model-card bg-white rounded-xl shadow-lg overflow-hidden cursor-pointer" data-model="descriptive">
+                <div class="h-32 bg-gradient-to-r from-green-500 to-teal-500 flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">โมเดลเชิงพรรณนา</h3>
+                    <p class="text-gray-600">อธิบายรูปแบบและความสัมพันธ์ในข้อมูล</p>
+                </div>
+            </div>
+            
+            <!-- โมเดลเชิงสร้าง -->
+            <div class="model-card bg-white rounded-xl shadow-lg overflow-hidden cursor-pointer" data-model="generative">
+                <div class="h-32 bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                    </svg>
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">โมเดลเชิงสร้าง</h3>
+                    <p class="text-gray-600">สร้างข้อมูลใหม่จากข้อมูลที่เรียนรู้</p>
+                </div>
+            </div>
+            
+            <!-- การเรียนรู้แบบเสริมแรง -->
+            <div class="model-card bg-white rounded-xl shadow-lg overflow-hidden cursor-pointer" data-model="reinforcement">
+                <div class="h-32 bg-gradient-to-r from-yellow-500 to-orange-500 flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">การเรียนรู้แบบเสริมแรง</h3>
+                    <p class="text-gray-600">เรียนรู้จากการลองผิดลองถูกและรางวัล</p>
+                </div>
+            </div>
+            
+            <!-- การเรียนรู้แบบกำกับตนเอง -->
+            <div class="model-card bg-white rounded-xl shadow-lg overflow-hidden cursor-pointer" data-model="selfsupervised">
+                <div class="h-32 bg-gradient-to-r from-red-500 to-rose-500 flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                    </svg>
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">การเรียนรู้แบบกำกับตนเอง</h3>
+                    <p class="text-gray-600">เรียนรู้จากข้อมูลโดยไม่ต้องมีการติดฉลาก</p>
+                </div>
+            </div>
+            
+            <!-- โมเดลเชิงสาเหตุ -->
+            <div class="model-card bg-white rounded-xl shadow-lg overflow-hidden cursor-pointer" data-model="causal">
+                <div class="h-32 bg-gradient-to-r from-cyan-500 to-blue-500 flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5l7 7-7 7M5 5l7 7-7 7" />
+                    </svg>
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">โมเดลเชิงสาเหตุ</h3>
+                    <p class="text-gray-600">วิเคราะห์ความสัมพันธ์เชิงสาเหตุระหว่างตัวแปร</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Content Panel -->
+        <div class="bg-white rounded-2xl shadow-xl p-8 mb-12 content-panel" id="contentPanel">
+            <div class="flex justify-between items-start mb-6">
+                <h2 class="text-3xl font-bold text-gray-800" id="modelTitle">เลือกโมเดล AI เพื่อดูรายละเอียด</h2>
+                <button id="closePanel" class="text-gray-500 hover:text-gray-700">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            
+            <div id="modelContent">
+                <p class="text-gray-600 mb-4">กรุณาเลือกประเภทของโมเดล AI จากด้านบนเพื่อดูรายละเอียดเพิ่มเติม</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const modelData = {
+            predictive: {
+                title: "โมเดลเชิงทำนาย (Predictive Models)",
+                content: `
+                    <div class="space-y-6">
+                        <p class="text-lg text-gray-700">โมเดลเชิงทำนายใช้ข้อมูลในอดีตเพื่อคาดการณ์ผลลัพธ์ในอนาคต โดยวิเคราะห์รูปแบบและแนวโน้มเพื่อสร้างการทำนายที่แม่นยำ</p>
+                        
+                        <h3 class="text-xl font-semibold text-indigo-700">ลักษณะสำคัญ</h3>
+                        <ul class="list-disc pl-6 space-y-2 text-gray-700">
+                            <li>ใช้อัลกอริทึมการเรียนรู้ของเครื่อง (Machine Learning) เพื่อวิเคราะห์ข้อมูลในอดีต</li>
+                            <li>สร้างโมเดลทางคณิตศาสตร์เพื่อทำนายผลลัพธ์ในอนาคต</li>
+                            <li>ประเมินความแม่นยำของการทำนายด้วยเมตริกต่างๆ</li>
+                            <li>ปรับปรุงโมเดลอย่างต่อเนื่องเมื่อมีข้อมูลใหม่</li>
+                        </ul>
+                        
+                        <h3 class="text-xl font-semibold text-indigo-700">ตัวอย่างการประยุกต์ใช้</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
+                            <div class="bg-indigo-50 p-4 rounded-lg">
+                                <h4 class="font-semibold text-indigo-800">การพยากรณ์ยอดขาย</h4>
+                                <p class="text-gray-700">ทำนายยอดขายในอนาคตจากข้อมูลยอดขายในอดีต ปัจจัยตามฤดูกาล และแนวโน้มตลาด</p>
+                            </div>
+                            <div class="bg-indigo-50 p-4 rounded-lg">
+                                <h4 class="font-semibold text-indigo-800">การวิเคราะห์ความเสี่ยงทางการเงิน</h4>
+                                <p class="text-gray-700">ประเมินความเสี่ยงในการให้สินเชื่อโดยวิเคราะห์ประวัติทางการเงินและพฤติกรรมการชำระเงิน</p>
+                            </div>
+                            <div class="bg-indigo-50 p-4 rounded-lg">
+                                <h4 class="font-semibold text-indigo-800">การวินิจฉัยทางการแพทย์</h4>
+                                <p class="text-gray-700">ทำนายความเสี่ยงของโรคจากข้อมูลสุขภาพและประวัติทางการแพทย์ของผู้ป่วย</p>
+                            </div>
+                            <div class="bg-indigo-50 p-4 rounded-lg">
+                                <h4 class="font-semibold text-indigo-800">การพยากรณ์อากาศ</h4>
+                                <p class="text-gray-700">ทำนายสภาพอากาศจากข้อมูลอุตุนิยมวิทยาในอดีตและปัจจุบัน</p>
+                            </div>
+                        </div>
+                        
+                        <h3 class="text-xl font-semibold text-indigo-700">อัลกอริทึมที่นิยมใช้</h3>
+                        <ul class="list-disc pl-6 space-y-2 text-gray-700">
+                            <li>Linear Regression (การถดถอยเชิงเส้น)</li>
+                            <li>Decision Trees (ต้นไม้ตัดสินใจ)</li>
+                            <li>Random Forest (ป่าสุ่ม)</li>
+                            <li>Neural Networks (โครงข่ายประสาทเทียม)</li>
+                            <li>Support Vector Machines (เครื่องเวกเตอร์สนับสนุน)</li>
+                        </ul>
+                    </div>
+                `
+            },
+            descriptive: {
+                title: "โมเดลเชิงพรรณนา (Descriptive Models)",
+                content: `
+                    <div class="space-y-6">
+                        <p class="text-lg text-gray-700">โมเดลเชิงพรรณนาช่วยให้เข้าใจข้อมูลที่มีอยู่ โดยการระบุรูปแบบ ความสัมพันธ์ และแนวโน้มที่ซ่อนอยู่ในข้อมูล</p>
+                        
+                        <h3 class="text-xl font-semibold text-green-700">ลักษณะสำคัญ</h3>
+                        <ul class="list-disc pl-6 space-y-2 text-gray-700">
+                            <li>มุ่งเน้นการทำความเข้าใจข้อมูลที่มีอยู่แล้ว ไม่ใช่การทำนายอนาคต</li>
+                            <li>ค้นหารูปแบบและความสัมพันธ์ที่ซ่อนอยู่ในข้อมูล</li>
+                            <li>สรุปและนำเสนอข้อมูลในรูปแบบที่เข้าใจง่าย</li>
+                            <li>ช่วยในการตัดสินใจโดยให้ข้อมูลเชิงลึกจากข้อมูลที่มีอยู่</li>
+                        </ul>
+                        
+                        <h3 class="text-xl font-semibold text-green-700">ตัวอย่างการประยุกต์ใช้</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
+                            <div class="bg-green-50 p-4 rounded-lg">
+                                <h4 class="font-semibold text-green-800">การวิเคราะห์พฤติกรรมลูกค้า</h4>
+                                <p class="text-gray-700">วิเคราะห์รูปแบบการซื้อสินค้าเพื่อเข้าใจพฤติกรรมและความชอบของลูกค้า</p>
+                            </div>
+                            <div class="bg-green-50 p-4 rounded-lg">
+                                <h4 class="font-semibold text-green-800">การแบ่งกลุ่มลูกค้า</h4>
+                                <p class="text-gray-700">แบ่งลูกค้าออกเป็นกลุ่มตามลักษณะและพฤติกรรมเพื่อการตลาดที่มีประสิทธิภาพ</p>
+                            </div>
+                            <div class="bg-green-50 p-4 rounded-lg">
+                                <h4 class="font-semibold text-green-800">การวิเคราะห์โซเชียลมีเดีย</h4>
+                                <p class="text-gray-700">วิเคราะห์ข้อความและความคิดเห็นเพื่อเข้าใจความรู้สึกและทัศนคติของผู้ใช้</p>
+                            </div>
+                            <div class="bg-green-50 p-4 rounded-lg">
+                                <h4 class="font-semibold text-green-800">การวิเคราะห์ข้อมูลทางการเงิน</h4>
+                                <p class="text-gray-700">ระบุรูปแบบและแนวโน้มในข้อมูลทางการเงินเพื่อการวางแผนและการตัดสินใจ</p>
+                            </div>
+                        </div>
+                        
+                        <h3 class="text-xl font-semibold text-green-700">อัลกอริทึมที่นิยมใช้</h3>
+                        <ul class="list-disc pl-6 space-y-2 text-gray-700">
+                            <li>Clustering (การจัดกลุ่ม) เช่น K-means, Hierarchical Clustering</li>
+                            <li>Association Rule Mining (การทำเหมืองกฎความสัมพันธ์)</li>
+                            <li>Principal Component Analysis (การวิเคราะห์องค์ประกอบหลัก)</li>
+                            <li>Dimensionality Reduction (การลดมิติข้อมูล)</li>
+                            <li>Anomaly Detection (การตรวจจับความผิดปกติ)</li>
+                        </ul>
+                    </div>
+                `
+            },
+            generative: {
+                title: "โมเดลเชิงสร้าง (Generative Models)",
+                content: `
+                    <div class="space-y-6">
+                        <p class="text-lg text-gray-700">โมเดลเชิงสร้างสามารถสร้างข้อมูลใหม่ที่มีลักษณะคล้ายกับข้อมูลที่ใช้ในการฝึกฝน โดยเรียนรู้การกระจายตัวของข้อมูลและสร้างตัวอย่างใหม่จากการกระจายตัวนั้น</p>
+                        
+                        <h3 class="text-xl font-semibold text-purple-700">ลักษณะสำคัญ</h3>
+                        <ul class="list-disc pl-6 space-y-2 text-gray-700">
+                            <li>เรียนรู้การกระจายตัวของข้อมูลที่ใช้ในการฝึกฝน</li>
+                            <li>สร้างข้อมูลใหม่ที่มีลักษณะคล้ายกับข้อมูลต้นแบบ</li>
+                            <li>สามารถสร้างข้อมูลที่มีความหลากหลายและสร้างสรรค์</li>
+                            <li>มีความสามารถในการเติมเต็มข้อมูลที่ขาดหายไป</li>
+                        </ul>
+                        
+                        <h3 class="text-xl font-semibold text-purple-700">ตัวอย่างการประยุกต์ใช้</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
+                            <div class="bg-purple-50 p-4 rounded-lg">
+                                <h4 class="font-semibold text-purple-800">การสร้างภาพ</h4>
+                                <p class="text-gray-700">สร้างภาพใหม่ที่สมจริงจากคำอธิบายหรือภาพต้นแบบ เช่น DALL-E, Midjourney</p>
+                            </div>
+                            <div class="bg-purple-50 p-4 rounded-lg">
+                                <h4 class="font-semibold text-purple-800">การสร้างเนื้อหา</h4>
+                                <p class="text-gray-700">สร้างบทความ เรื่องสั้น หรือบทกวีที่มีความสมจริงและสร้างสรรค์</p>
+                            </div>
+                            <div class="bg-purple-50 p-4 rounded-lg">
+                                <h4 class="font-semibold text-purple-800">การสร้างเสียงและดนตรี</h4>
+                                <p class="text-gray-700">สร้างเสียงพูด เสียงดนตรี หรือเสียงประกอบที่มีความสมจริง</p>
+                            </div>
+                            <div class="bg-purple-50 p-4 rounded-lg">
+                                <h4 class="font-semibold text-purple-800">การสร้างข้อมูลสังเคราะห์</h4>
+                                <p class="text-gray-700">สร้างข้อมูลสังเคราะห์สำหรับการทดสอบหรือการฝึกฝนโมเดลอื่นๆ</p>
+                            </div>
+                        </div>
+                        
+                        <h3 class="text-xl font-semibold text-purple-700">อัลกอริทึมที่นิยมใช้</h3>
+                        <ul class="list-disc pl-6 space-y-2 text-gray-700">
+                            <li>Generative Adversarial Networks (GANs)</li>
+                            <li>Variational Autoencoders (VAEs)</li>
+                            <li>Transformer-based models (เช่น GPT, BERT)</li>
+                            <li>Diffusion Models</li>
+                            <li>Flow-based Models</li>
+                        </ul>
+                    </div>
+                `
+            },
+            reinforcement: {
+                title: "การเรียนรู้แบบเสริมแรง (Reinforcement Learning)",
+                content: `
+                    <div class="space-y-6">
+                        <p class="text-lg text-gray-700">การเรียนรู้แบบเสริมแรงเป็นวิธีการที่เอเจนต์ (agent) เรียนรู้จากการมีปฏิสัมพันธ์กับสภาพแวดล้อม โดยได้รับรางวัลหรือบทลงโทษตามการกระทำ เพื่อพัฒนานโยบาย (policy) ที่ดีที่สุด</p>
+                        
+                        <h3 class="text-xl font-semibold text-yellow-700">ลักษณะสำคัญ</h3>
+                        <ul class="list-disc pl-6 space-y-2 text-gray-700">
+                            <li>เรียนรู้จากการลองผิดลองถูกและปฏิสัมพันธ์กับสภาพแวดล้อม</li>
+                            <li>มุ่งเน้นการหาสมดุลระหว่างการสำรวจ (exploration) และการใช้ประโยชน์ (exploitation)</li>
+                            <li>ใช้ระบบรางวัลเพื่อกำหนดพฤติกรรมที่พึงประสงค์</li>
+                            <li>พัฒนานโยบายที่เหมาะสมที่สุดสำหรับการตัดสินใจในสถานการณ์ต่างๆ</li>
+                        </ul>
+                        
+                        <h3 class="text-xl font-semibold text-yellow-700">ตัวอย่างการประยุกต์ใช้</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
+                            <div class="bg-yellow-50 p-4 rounded-lg">
+                                <h4 class="font-semibold text-yellow-800">เกมและการแข่งขัน</h4>
+                                <p class="text-gray-700">ฝึกฝน AI ให้เล่นเกมต่างๆ เช่น หมากรุก โกะ หรือวิดีโอเกม</p>
+                            </div>
+                            <div class="bg-yellow-50 p-4 rounded-lg">
+                                <h4 class="font-semibold text-yellow-800">หุ่นยนต์และระบบอัตโนมัติ</h4>
+                                <p class="text-gray-700">ควบคุมการเคลื่อนไหวและการตัดสินใจของหุ่นยนต์ในสภาพแวดล้อมจริง</p>
+                            </div>
+                            <div class="bg-yellow-50 p-4 rounded-lg">
+                                <h4 class="font-semibold text-yellow-800">การจัดการทรัพยากร</h4>
+                                <p class="text-gray-700">ปรับปรุงการจัดสรรทรัพยากรในระบบที่ซับซ้อน เช่น การจัดการพลังงานหรือการจัดการเครือข่าย</p>
+                            </div>
+                            <div class="bg-yellow-50 p-4 rounded-lg">
+                                <h4 class="font-semibold text-yellow-800">การซื้อขายอัตโนมัติ</h4>
+                                <p class="text-gray-700">พัฒนากลยุทธ์การซื้อขายในตลาดการเงินโดยการเรียนรู้จากผลลัพธ์ของการตัดสินใจในอดีต</p>
+                            </div>
+                        </div>
+                        
+                        <h3 class="text-xl font-semibold text-yellow-700">อัลกอริทึมที่นิยมใช้</h3>
+                        <ul class="list-disc pl-6 space-y-2 text-gray-700">
+                            <li>Q-Learning</li>
+                            <li>Deep Q-Networks (DQN)</li>
+                            <li>Policy Gradient Methods</li>
+                            <li>Proximal Policy Optimization (PPO)</li>
+                            <li>Actor-Critic Methods</li>
+                        </ul>
+                    </div>
+                `
+            },
+            selfsupervised: {
+                title: "การเรียนรู้แบบกำกับตนเอง (Self-supervised Learning)",
+                content: `
+                    <div class="space-y-6">
+                        <p class="text-lg text-gray-700">การเรียนรู้แบบกำกับตนเองเป็นเทคนิคที่โมเดลเรียนรู้จากข้อมูลที่ไม่มีการติดฉลาก โดยสร้างงานย่อย (pretext tasks) จากข้อมูลเอง เพื่อเรียนรู้การแทนค่าที่มีประโยชน์</p>
+                        
+                        <h3 class="text-xl font-semibold text-red-700">ลักษณะสำคัญ</h3>
+                        <ul class="list-disc pl-6 space-y-2 text-gray-700">
+                            <li>ไม่ต้องการข้อมูลที่มีการติดฉลากจำนวนมาก</li>
+                            <li>สร้างงานย่อยจากข้อมูลเองเพื่อใช้ในการเรียนรู้</li>
+                            <li>เรียนรู้การแทนค่าที่มีประโยชน์จากข้อมูลที่ไม่มีการติดฉลาก</li>
+                            <li>สามารถปรับใช้กับงานเฉพาะทางได้ด้วยข้อมูลที่มีการติดฉลากจำนวนน้อย</li>
+                        </ul>
+                        
+                        <h3 class="text-xl font-semibold text-red-700">ตัวอย่างการประยุกต์ใช้</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
+                            <div class="bg-red-50 p-4 rounded-lg">
+                                <h4 class="font-semibold text-red-800">การประมวลผลภาษาธรรมชาติ</h4>
+                                <p class="text-gray-700">โมเดลภาษาขนาดใหญ่เรียนรู้จากข้อความจำนวนมากโดยการทำนายคำที่หายไปหรือลำดับของประโยค</p>
+                            </div>
+                            <div class="bg-red-50 p-4 rounded-lg">
+                                <h4 class="font-semibold text-red-800">การประมวลผลภาพ</h4>
+                                <p class="text-gray-700">เรียนรู้ลักษณะสำคัญของภาพโดยการทำนายส่วนที่หายไปหรือการหมุนภาพ</p>
+                            </div>
+                            <div class="bg-red-50 p-4 rounded-lg">
+                                <h4 class="font-semibold text-red-800">การประมวลผลเสียง</h4>
+                                <p class="text-gray-700">เรียนรู้การแทนค่าเสียงโดยการทำนายส่วนที่หายไปหรือการจัดกลุ่มเสียงที่คล้ายกัน</p>
+                            </div>
+                            <div class="bg-red-50 p-4 rounded-lg">
+                                <h4 class="font-semibold text-red-800">การเรียนรู้แบบหลายรูปแบบ</h4>
+                                <p class="text-gray-700">เรียนรู้ความสัมพันธ์ระหว่างข้อมูลหลายรูปแบบ เช่น ภาพและข้อความ</p>
+                            </div>
+                        </div>
+                        
+                        <h3 class="text-xl font-semibold text-red-700">อัลกอริทึมที่นิยมใช้</h3>
+                        <ul class="list-disc pl-6 space-y-2 text-gray-700">
+                            <li>Masked Language Models (เช่น BERT)</li>
+                            <li>Contrastive Learning (การเรียนรู้แบบเปรียบเทียบ)</li>
+                            <li>Autoregressive Models (เช่น GPT)</li>
+                            <li>SimCLR, BYOL, SwAV (สำหรับการเรียนรู้การแทนค่าภาพ)</li>
+                            <li>Masked Autoencoders</li>
+                        </ul>
+                    </div>
+                `
+            },
+            causal: {
+                title: "โมเดลเชิงสาเหตุ (Causal Models)",
+                content: `
+                    <div class="space-y-6">
+                        <p class="text-lg text-gray-700">โมเดลเชิงสาเหตุมุ่งเน้นการเข้าใจความสัมพันธ์เชิงสาเหตุระหว่างตัวแปรต่างๆ ไม่เพียงแค่ความสัมพันธ์เชิงสหสัมพันธ์ แต่ยังรวมถึงการระบุว่าการเปลี่ยนแปลงในตัวแปรหนึ่งเป็นสาเหตุของการเปลี่ยนแปลงในอีกตัวแปรหนึ่งอย่างไร</p>
+                        
+                        <h3 class="text-xl font-semibold text-cyan-700">ลักษณะสำคัญ</h3>
+                        <ul class="list-disc pl-6 space-y-2 text-gray-700">
+                            <li>มุ่งเน้นการเข้าใจความสัมพันธ์เชิงสาเหตุ ไม่ใช่เพียงสหสัมพันธ์</li>
+                            <li>สามารถตอบคำถาม "จะเกิดอะไรขึ้นถ้า..." (what-if questions)</li>
+                            <li>ช่วยในการตัดสินใจและการวางแผนการแทรกแซง</li>
+                            <li>รองรับการอนุมานเชิงสาเหตุและการวิเคราะห์ผลกระทบ</li>
+                        </ul>
+                        
+                        <h3 class="text-xl font-semibold text-cyan-700">ตัวอย่างการประยุกต์ใช้</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
+                            <div class="bg-cyan-50 p-4 rounded-lg">
+                                <h4 class="font-semibold text-cyan-800">การวิจัยทางการแพทย์</h4>
+                                <p class="text-gray-700">วิเคราะห์ผลกระทบของการรักษาและปัจจัยเสี่ยงต่อผลลัพธ์ทางสุขภาพ</p>
+                            </div>
+                            <div class="bg-cyan-50 p-4 rounded-lg">
+                                <h4 class="font-semibold text-cyan-800">การวิเคราะห์นโยบาย</h4>
+                                <p class="text-gray-700">ประเมินผลกระทบของนโยบายสาธารณะและการแทรกแซงทางเศรษฐกิจ</p>
+                            </div>
+                            <div class="bg-cyan-50 p-4 rounded-lg">
+                                <h4 class="font-semibold text-cyan-800">การวิเคราะห์ธุรกิจ</h4>
+                                <p class="text-gray-700">เข้าใจปัจจัยที่ขับเคลื่อนผลลัพธ์ทางธุรกิจและการตัดสินใจเชิงกลยุทธ์</p>
+                            </div>
+                            <div class="bg-cyan-50 p-4 rounded-lg">
+                                <h4 class="font-semibold text-cyan-800">การวิเคราะห์ระบบซับซ้อน</h4>
+                                <p class="text-gray-700">เข้าใจความสัมพันธ์เชิงสาเหตุในระบบที่ซับซ้อน เช่น ระบบนิเวศหรือเศรษฐกิจ</p>
+                            </div>
+                        </div>
+                        
+                        <h3 class="text-xl font-semibold text-cyan-700">อัลกอริทึมและเทคนิคที่นิยมใช้</h3>
+                        <ul class="list-disc pl-6 space-y-2 text-gray-700">
+                            <li>Bayesian Networks (เครือข่ายเบย์)</li>
+                            <li>Structural Equation Models (โมเดลสมการโครงสร้าง)</li>
+                            <li>Propensity Score Matching (การจับคู่คะแนนความโน้มเอียง)</li>
+                            <li>Instrumental Variables (ตัวแปรเครื่องมือ)</li>
+                            <li>Causal Inference with Deep Learning (การอนุมานเชิงสาเหตุด้วยการเรียนรู้เชิงลึก)</li>
+                        </ul>
+                    </div>
+                `
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const modelCards = document.querySelectorAll('.model-card');
+            const contentPanel = document.getElementById('contentPanel');
+            const modelTitle = document.getElementById('modelTitle');
+            const modelContent = document.getElementById('modelContent');
+            const closePanel = document.getElementById('closePanel');
+            
+            modelCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    const modelType = this.getAttribute('data-model');
+                    const modelInfo = modelData[modelType];
+                    
+                    if (modelInfo) {
+                        modelTitle.textContent = modelInfo.title;
+                        modelContent.innerHTML = modelInfo.content;
+                        contentPanel.classList.add('active');
+                        
+                        // Scroll to content panel
+                        contentPanel.scrollIntoView({ behavior: 'smooth' });
+                    }
+                });
+            });
+            
+            closePanel.addEventListener('click', function() {
+                contentPanel.classList.remove('active');
+            });
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9602853580105833',t:'MTc1MjY3OTYxMi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
