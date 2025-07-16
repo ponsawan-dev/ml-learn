@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>พื้นฐาน Machine Learning: Linear Regression</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjs@11.8.0/lib/browser/math.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap');
+        body {
+            font-family: 'Sarabun', sans-serif;
+            background-color: #f0f9ff;
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+        }
+    </style>
+</head>
+<body>
+    <header class="gradient-bg text-white py-6 shadow-lg">
+        <div class="container mx-auto px-4">
+            <h1 class="text-3xl font-bold text-center">พื้นฐาน Machine Learning</h1>
+            <p class="text-center text-xl mt-2">Linear Regression แบบโต้ตอบ</p>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-8">
+        <section class="bg-white rounded-lg shadow-md p-6 mb-8">
+            <h2 class="text-2xl font-bold mb-4 text-gray-800">Machine Learning คืออะไร?</h2>
+            <p class="mb-4 text-gray-700">Machine Learning (การเรียนรู้ของเครื่อง) เป็นสาขาหนึ่งของปัญญาประดิษฐ์ (AI) ที่ให้คอมพิวเตอร์สามารถเรียนรู้จากข้อมูลโดยไม่ต้องเขียนโปรแกรมอย่างชัดเจน</p>
+            
+            <h3 class="text-xl font-semibold mt-6 mb-3 text-gray-800">ประเภทของ Machine Learning</h3>
+            <ul class="list-disc pl-6 mb-4 text-gray-700">
+                <li class="mb-2"><strong>Supervised Learning</strong> - การเรียนรู้แบบมีผู้สอน: เรียนรู้จากข้อมูลที่มีคำตอบ (Label) กำกับไว้แล้ว</li>
+                <li class="mb-2"><strong>Unsupervised Learning</strong> - การเรียนรู้แบบไม่มีผู้สอน: เรียนรู้จากข้อมูลที่ไม่มีคำตอบกำกับ</li>
+                <li class="mb-2"><strong>Reinforcement Learning</strong> - การเรียนรู้แบบเสริมแรง: เรียนรู้จากการลองผิดลองถูกและรางวัล</li>
+            </ul>
+        </section>
+
+        <section class="bg-white rounded-lg shadow-md p-6 mb-8">
+            <h2 class="text-2xl font-bold mb-4 text-gray-800">Linear Regression คืออะไร?</h2>
+            <p class="mb-4 text-gray-700">Linear Regression เป็นอัลกอริทึมการเรียนรู้แบบมีผู้สอน (Supervised Learning) ที่ใช้ในการทำนายค่าต่อเนื่อง โดยหาความสัมพันธ์เชิงเส้นระหว่างตัวแปรอิสระ (x) และตัวแปรตาม (y)</p>
+            
+            <div class="mb-6">
+                <h3 class="text-xl font-semibold mb-3 text-gray-800">สมการ Linear Regression</h3>
+                <div class="bg-blue-50 p-4 rounded-lg text-center">
+                    <p class="text-lg font-medium text-gray-800">y = mx + b</p>
+                    <p class="text-gray-600 mt-2">โดยที่ m คือความชัน (slope) และ b คือจุดตัดแกน y (y-intercept)</p>
+                </div>
+            </div>
+
+            <div class="mb-6">
+                <h3 class="text-xl font-semibold mb-3 text-gray-800">การทำงานของ Linear Regression</h3>
+                <ol class="list-decimal pl-6 text-gray-700">
+                    <li class="mb-2">เริ่มต้นด้วยค่า m และ b สุ่ม</li>
+                    <li class="mb-2">คำนวณค่าทำนาย (ŷ) สำหรับแต่ละค่า x</li>
+                    <li class="mb-2">คำนวณค่าความผิดพลาด (error) ระหว่างค่าทำนายและค่าจริง</li>
+                    <li class="mb-2">ปรับค่า m และ b เพื่อลดความผิดพลาด</li>
+                    <li class="mb-2">ทำซ้ำจนกว่าจะได้ค่า m และ b ที่เหมาะสม</li>
+                </ol>
+            </div>
+        </section>
+
+        <section class="bg-white rounded-lg shadow-md p-6 mb-8">
+            <h2 class="text-2xl font-bold mb-4 text-gray-800">ทดลองใช้ Linear Regression</h2>
+            
+            <div class="mb-6">
+                <h3 class="text-xl font-semibold mb-3 text-gray-800">ข้อมูลตัวอย่าง</h3>
+                <p class="mb-4 text-gray-700">ตัวอย่างนี้จะใช้ข้อมูลความสัมพันธ์ระหว่างจำนวนชั่วโมงการเรียนและคะแนนสอบ</p>
+                
+                <div class="overflow-x-auto">
+                    <table class="min-w-full bg-white border border-gray-200">
+                        <thead>
+                            <tr>
+                                <th class="py-2 px-4 border-b">ชั่วโมงเรียน (x)</th>
+                                <th class="py-2 px-4 border-b">คะแนนสอบ (y)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="sampleData">
+                            <!-- จะถูกเติมด้วย JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="mb-6">
+                <h3 class="text-xl font-semibold mb-3 text-gray-800">กราฟแสดงข้อมูลและเส้น Regression</h3>
+                <div class="bg-gray-50 p-4 rounded-lg">
+                    <canvas id="regressionChart" height="300"></canvas>
+                </div>
+                <div class="mt-4 text-center">
+                    <p id="equationDisplay" class="text-lg font-medium text-blue-700"></p>
+                </div>
+            </div>
+
+            <div class="mb-6">
+                <h3 class="text-xl font-semibold mb-3 text-gray-800">ทดสอบโมเดล</h3>
+                <p class="mb-3 text-gray-700">ป้อนจำนวนชั่วโมงที่เรียนเพื่อทำนายคะแนนสอบ</p>
+                
+                <div class="flex flex-col md:flex-row gap-4 items-end">
+                    <div class="w-full md:w-1/3">
+                        <label for="studyHours" class="block text-sm font-medium text-gray-700 mb-1">จำนวนชั่วโมงเรียน</label>
+                        <input type="number" id="studyHours" min="0" max="12" step="0.5" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" value="5">
+                    </div>
+                    <button id="predictBtn" class="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors">ทำนายคะแนน</button>
+                </div>
+                
+                <div id="predictionResult" class="mt-4 p-4 bg-blue-50 rounded-lg hidden">
+                    <p class="text-lg font-medium text-gray-800">ผลการทำนาย: <span id="predictedScore" class="text-blue-700"></span></p>
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-white rounded-lg shadow-md p-6 mb-8">
+            <h2 class="text-2xl font-bold mb-4 text-gray-800">สร้างโมเดลของคุณเอง</h2>
+            <p class="mb-4 text-gray-700">ป้อนข้อมูลของคุณเองเพื่อสร้างโมเดล Linear Regression</p>
+            
+            <div class="mb-6">
+                <h3 class="text-xl font-semibold mb-3 text-gray-800">ป้อนข้อมูล</h3>
+                <p class="mb-2 text-gray-600">ป้อนข้อมูลในรูปแบบ "x,y" แต่ละคู่ในบรรทัดใหม่ (เช่น "2,4")</p>
+                <textarea id="userDataInput" rows="6" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="1,3&#10;2,5&#10;3,7&#10;4,9"></textarea>
+                <button id="createModelBtn" class="mt-3 px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors">สร้างโมเดล</button>
+            </div>
+            
+            <div id="userModelSection" class="hidden">
+                <div class="mb-6">
+                    <h3 class="text-xl font-semibold mb-3 text-gray-800">กราฟโมเดลของคุณ</h3>
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <canvas id="userRegressionChart" height="300"></canvas>
+                    </div>
+                    <div class="mt-4 text-center">
+                        <p id="userEquationDisplay" class="text-lg font-medium text-blue-700"></p>
+                    </div>
+                </div>
+                
+                <div class="mb-6">
+                    <h3 class="text-xl font-semibold mb-3 text-gray-800">ทดสอบโมเดลของคุณ</h3>
+                    <div class="flex flex-col md:flex-row gap-4 items-end">
+                        <div class="w-full md:w-1/3">
+                            <label for="userInputX" class="block text-sm font-medium text-gray-700 mb-1">ค่า X</label>
+                            <input type="number" id="userInputX" step="0.1" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" value="5">
+                        </div>
+                        <button id="userPredictBtn" class="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors">ทำนายค่า Y</button>
+                    </div>
+                    
+                    <div id="userPredictionResult" class="mt-4 p-4 bg-blue-50 rounded-lg hidden">
+                        <p class="text-lg font-medium text-gray-800">ผลการทำนาย: <span id="userPredictedY" class="text-blue-700"></span></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-gray-800 text-white py-6">
+        <div class="container mx-auto px-4 text-center">
+            <p>© 2023 พื้นฐาน Machine Learning</p>
+        </div>
+    </footer>
+
+    <script>
+        // ข้อมูลตัวอย่าง
+        const sampleData = [
+            { x: 1, y: 20 },
+            { x: 2, y: 30 },
+            { x: 3, y: 40 },
+            { x: 4, y: 50 },
+            { x: 5, y: 60 },
+            { x: 6, y: 65 },
+            { x: 7, y: 75 },
+            { x: 8, y: 80 },
+            { x: 9, y: 90 }
+        ];
+
+        // แสดงข้อมูลตัวอย่างในตาราง
+        const sampleDataTable = document.getElementById('sampleData');
+        sampleData.forEach(point => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td class="py-2 px-4 border-b text-center">${point.x}</td>
+                <td class="py-2 px-4 border-b text-center">${point.y}</td>
+            `;
+            sampleDataTable.appendChild(row);
+        });
+
+        // คำนวณ Linear Regression
+        function calculateLinearRegression(data) {
+            const n = data.length;
+            let sumX = 0;
+            let sumY = 0;
+            let sumXY = 0;
+            let sumXX = 0;
+
+            data.forEach(point => {
+                sumX += point.x;
+                sumY += point.y;
+                sumXY += point.x * point.y;
+                sumXX += point.x * point.x;
+            });
+
+            const slope = (n * sumXY - sumX * sumY) / (n * sumXX - sumX * sumX);
+            const intercept = (sumY - slope * sumX) / n;
+
+            return { slope, intercept };
+        }
+
+        // สร้างกราฟ
+        function createRegressionChart(data, chartId, equationId) {
+            const { slope, intercept } = calculateLinearRegression(data);
+            
+            // สร้างจุดข้อมูลสำหรับเส้น regression
+            const minX = Math.min(...data.map(point => point.x));
+            const maxX = Math.max(...data.map(point => point.x));
+            const lineStart = { x: minX, y: slope * minX + intercept };
+            const lineEnd = { x: maxX, y: slope * maxX + intercept };
+
+            // สร้างกราฟ
+            const ctx = document.getElementById(chartId).getContext('2d');
+            
+            // ถ้ามีกราฟอยู่แล้ว ให้ทำลายก่อน
+            if (window[chartId + 'Instance']) {
+                window[chartId + 'Instance'].destroy();
+            }
+            
+            window[chartId + 'Instance'] = new Chart(ctx, {
+                type: 'scatter',
+                data: {
+                    datasets: [
+                        {
+                            label: 'ข้อมูล',
+                            data: data.map(point => ({ x: point.x, y: point.y })),
+                            backgroundColor: 'rgba(54, 162, 235, 0.7)',
+                            pointRadius: 6
+                        },
+                        {
+                            label: 'เส้น Regression',
+                            data: [
+                                { x: lineStart.x, y: lineStart.y },
+                                { x: lineEnd.x, y: lineEnd.y }
+                            ],
+                            type: 'line',
+                            borderColor: 'rgba(255, 99, 132, 1)',
+                            borderWidth: 3,
+                            fill: false,
+                            pointRadius: 0
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'X'
+                            }
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Y'
+                            }
+                        }
+                    }
+                }
+            });
+
+            // แสดงสมการ
+            document.getElementById(equationId).textContent = `สมการ: y = ${slope.toFixed(2)}x + ${intercept.toFixed(2)}`;
+            
+            return { slope, intercept };
+        }
+
+        // สร้างกราฟเริ่มต้น
+        const { slope, intercept } = createRegressionChart(sampleData, 'regressionChart', 'equationDisplay');
+
+        // ทำนายคะแนน
+        document.getElementById('predictBtn').addEventListener('click', function() {
+            const studyHours = parseFloat(document.getElementById('studyHours').value);
+            if (isNaN(studyHours)) {
+                alert('กรุณาป้อนจำนวนชั่วโมงเรียนที่ถูกต้อง');
+                return;
+            }
+
+            const predictedScore = slope * studyHours + intercept;
+            document.getElementById('predictedScore').textContent = `${predictedScore.toFixed(2)} คะแนน`;
+            document.getElementById('predictionResult').classList.remove('hidden');
+        });
+
+        // สร้างโมเดลจากข้อมูลผู้ใช้
+        document.getElementById('createModelBtn').addEventListener('click', function() {
+            const userDataText = document.getElementById('userDataInput').value.trim();
+            if (!userDataText) {
+                alert('กรุณาป้อนข้อมูล');
+                return;
+            }
+
+            try {
+                const userData = userDataText.split('\n').map(line => {
+                    const [x, y] = line.split(',').map(val => parseFloat(val.trim()));
+                    if (isNaN(x) || isNaN(y)) {
+                        throw new Error('รูปแบบข้อมูลไม่ถูกต้อง');
+                    }
+                    return { x, y };
+                });
+
+                if (userData.length < 2) {
+                    alert('กรุณาป้อนข้อมูลอย่างน้อย 2 จุด');
+                    return;
+                }
+
+                const userModel = createRegressionChart(userData, 'userRegressionChart', 'userEquationDisplay');
+                window.userModel = userModel;
+                document.getElementById('userModelSection').classList.remove('hidden');
+            } catch (error) {
+                alert('เกิดข้อผิดพลาด: ' + error.message);
+            }
+        });
+
+        // ทำนายค่า Y จากโมเดลของผู้ใช้
+        document.getElementById('userPredictBtn').addEventListener('click', function() {
+            if (!window.userModel) {
+                alert('กรุณาสร้างโมเดลก่อน');
+                return;
+            }
+
+            const inputX = parseFloat(document.getElementById('userInputX').value);
+            if (isNaN(inputX)) {
+                alert('กรุณาป้อนค่า X ที่ถูกต้อง');
+                return;
+            }
+
+            const predictedY = window.userModel.slope * inputX + window.userModel.intercept;
+            document.getElementById('userPredictedY').textContent = predictedY.toFixed(2);
+            document.getElementById('userPredictionResult').classList.remove('hidden');
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'96027f54e67a5833',t:'MTc1MjY3OTM3MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
