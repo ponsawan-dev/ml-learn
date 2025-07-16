@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>การวัดประสิทธิภาพโมเดล Machine Learning</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap');
+        body {
+            font-family: 'Sarabun', sans-serif;
+            background-color: #f8fafc;
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 100%);
+        }
+        .gradient-bg-2 {
+            background: linear-gradient(135deg, #f43f5e 0%, #ec4899 100%);
+        }
+        .formula {
+            font-family: 'Courier New', monospace;
+            padding: 0.5rem;
+            border-radius: 0.25rem;
+            background-color: #f1f5f9;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+        .metric-card {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .metric-card:hover {
+            transform: translateY(-5px);
+        }
+        .metric-detail {
+            display: none;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+        }
+        .active-metric {
+            border-color: currentColor;
+            border-width: 2px;
+        }
+    </style>
+</head>
+<body>
+    <header class="gradient-bg text-white py-8 shadow-lg">
+        <div class="container mx-auto px-4">
+            <h1 class="text-3xl md:text-4xl font-bold text-center">การวัดประสิทธิภาพโมเดล Machine Learning</h1>
+            <p class="text-center text-xl mt-2">เมตริกและฟังก์ชันการสูญเสียสำหรับ Regression และ Classification</p>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-8">
+        <!-- Introduction Section -->
+        <section class="mb-12">
+            <div class="bg-white rounded-xl shadow-md p-6 mb-8">
+                <h2 class="text-2xl font-bold mb-4 text-gray-800">การวัดประสิทธิภาพโมเดล (Model Evaluation Metrics)</h2>
+                <p class="text-gray-700 mb-6">การวัดประสิทธิภาพโมเดลเป็นขั้นตอนสำคัญในการพัฒนาโมเดล Machine Learning เพื่อประเมินว่าโมเดลสามารถทำนายได้แม่นยำเพียงใด โดยเมตริกที่ใช้จะแตกต่างกันไปตามประเภทของงาน</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-blue-50 rounded-lg p-5 border-l-4 border-blue-500">
+                        <h3 class="text-xl font-semibold text-blue-700 mb-2">เมตริกสำหรับ Regression</h3>
+                        <p class="text-gray-700">ใช้วัดความแม่นยำในการทำนายค่าต่อเนื่อง โดยวัดความแตกต่างระหว่างค่าที่ทำนายได้กับค่าจริง</p>
+                        <ul class="mt-3 space-y-1 text-gray-700">
+                            <li>• MSE (Mean Squared Error)</li>
+                            <li>• RMSE (Root Mean Squared Error)</li>
+                            <li>• MAE (Mean Absolute Error)</li>
+                            <li>• R-squared (Coefficient of Determination)</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="bg-pink-50 rounded-lg p-5 border-l-4 border-pink-500">
+                        <h3 class="text-xl font-semibold text-pink-700 mb-2">เมตริกสำหรับ Classification</h3>
+                        <p class="text-gray-700">ใช้วัดความแม่นยำในการจำแนกประเภทหรือคลาส โดยเปรียบเทียบคลาสที่ทำนายได้กับคลาสจริง</p>
+                        <ul class="mt-3 space-y-1 text-gray-700">
+                            <li>• Accuracy (ความแม่นยำ)</li>
+                            <li>• Precision (ความเที่ยง)</li>
+                            <li>• Recall (ความไว)</li>
+                            <li>• F1-score</li>
+                            <li>• ROC-AUC</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Regression Metrics Section -->
+        <section class="mb-12">
+            <div class="gradient-bg rounded-xl shadow-md overflow-hidden">
+                <div class="py-4 px-6">
+                    <h2 class="text-2xl font-bold text-white">เมตริกสำหรับ Regression</h2>
+                </div>
+                <div class="bg-white p-6">
+                    <p class="text-gray-700 mb-6">เมตริกเหล่านี้ใช้วัดความแม่นยำของโมเดลในการทำนายค่าต่อเนื่อง โดยวัดความแตกต่างระหว่างค่าที่ทำนายได้ (ŷ) กับค่าจริง (y)</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                        <div id="mse-card" class="metric-card bg-blue-50 rounded-lg shadow-md p-5 border-2 border-transparent">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mr-4">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                                    </svg>
+                                </div>
+                                <h3 class="text-xl font-semibold text-gray-800">MSE (Mean Squared Error)</h3>
+                            </div>
+                            <p class="text-gray-700 mb-3">ค่าเฉลี่ยของกำลังสองของความแตกต่างระหว่างค่าที่ทำนายได้กับค่าจริง</p>
+                            <div class="formula mb-3">MSE = (1/n) * Σ(y_i - ŷ_i)²</div>
+                            <div class="flex justify-end">
+                                <button class="text-blue-600 hover:text-blue-800 font-medium">ดูรายละเอียด ▼</button>
+                            </div>
+                        </div>
+
+                        <div id="rmse-card" class="metric-card bg-blue-50 rounded-lg shadow-md p-5 border-2 border-transparent">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mr-4">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                                    </svg>
+                                </div>
+                                <h3 class="text-xl font-semibold text-gray-800">RMSE (Root Mean Squared Error)</h3>
+                            </div>
+                            <p class="text-gray-700 mb-3">รากที่สองของค่าเฉลี่ยของกำลังสองของความแตกต่างระหว่างค่าที่ทำนายได้กับค่าจริง</p>
+                            <div class="formula mb-3">RMSE = √[(1/n) * Σ(y_i - ŷ_i)²]</div>
+                            <div class="flex justify-end">
+                                <button class="text-blue-600 hover:text-blue-800 font-medium">ดูรายละเอียด ▼</button>
+                            </div>
+                        </div>
+
+                        <div id="mae-card" class="metric-card bg-blue-50 rounded-lg shadow-md p-5 border-2 border-transparent">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mr-4">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14" />
+                                    </svg>
+                                </div>
+                                <h3 class="text-xl font-semibold text-gray-800">MAE (Mean Absolute Error)</h3>
+                            </div>
+                            <p class="text-gray-700 mb-3">ค่าเฉลี่ยของค่าสัมบูรณ์ของความแตกต่างระหว่างค่าที่ทำนายได้กับค่าจริง</p>
+                            <div class="formula mb-3">MAE = (1/n) * Σ|y_i - ŷ_i|</div>
+                            <div class="flex justify-end">
+                                <button class="text-blue-600 hover:text-blue-800 font-medium">ดูรายละเอียด ▼</button>
+                            </div>
+                        </div>
+
+                        <div id="r2-card" class="metric-card bg-blue-50 rounded-lg shadow-md p-5 border-2 border-transparent">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mr-4">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                    </svg>
+                                </div>
+                                <h3 class="text-xl font-semibold text-gray-800">R-squared (Coefficient of Determination)</h3>
+                            </div>
+                            <p class="text-gray-700 mb-3">สัดส่วนของความแปรปรวนในตัวแปรตามที่สามารถอธิบายได้ด้วยโมเดล</p>
+                            <div class="formula mb-3">R² = 1 - [Σ(y_i - ŷ_i)² / Σ(y_i - ȳ)²]</div>
+                            <div class="flex justify-end">
+                                <button class="text-blue-600 hover:text-blue-800 font-medium">ดูรายละเอียด ▼</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="mse-detail" class="metric-detail bg-blue-50 p-5 rounded-lg mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-3">MSE (Mean Squared Error) - รายละเอียด</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <p class="text-gray-700 mb-3"><strong>คำอธิบาย:</strong> MSE คือค่าเฉลี่ยของกำลังสองของความแตกต่างระหว่างค่าที่ทำนายได้กับค่าจริง</p>
+                                <p class="text-gray-700 mb-3"><strong>สูตร:</strong></p>
+                                <div class="formula mb-3">MSE = (1/n) * Σ(y_i - ŷ_i)²</div>
+                                <p class="text-gray-700 mb-3">โดยที่:</p>
+                                <ul class="list-disc pl-5 text-gray-700 mb-3">
+                                    <li>n คือจำนวนตัวอย่างทั้งหมด</li>
+                                    <li>y_i คือค่าจริงของตัวอย่างที่ i</li>
+                                    <li>ŷ_i คือค่าที่ทำนายได้ของตัวอย่างที่ i</li>
+                                </ul>
+                                <p class="text-gray-700 mb-3"><strong>การแปลผล:</strong></p>
+                                <ul class="list-disc pl-5 text-gray-700">
+                                    <li>ค่า MSE ยิ่งน้อยยิ่งดี (ค่าต่ำสุดคือ 0)</li>
+                                    <li>ให้น้ำหนักกับความผิดพลาดขนาดใหญ่มากกว่าความผิดพลาดขนาดเล็ก เนื่องจากมีการยกกำลังสอง</li>
+                                    <li>หน่วยของ MSE คือหน่วยของตัวแปรตามยกกำลังสอง</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <p class="text-gray-700 mb-3"><strong>ข้อดี:</strong></p>
+                                <ul class="list-disc pl-5 text-gray-700 mb-3">
+                                    <li>คำนวณง่าย</li>
+                                    <li>มีคุณสมบัติทางคณิตศาสตร์ที่ดี เช่น สามารถหาอนุพันธ์ได้</li>
+                                    <li>ลงโทษความผิดพลาดขนาดใหญ่มากกว่าความผิดพลาดขนาดเล็ก</li>
+                                </ul>
+                                <p class="text-gray-700 mb-3"><strong>ข้อเสีย:</strong></p>
+                                <ul class="list-disc pl-5 text-gray-700 mb-3">
+                                    <li>ไวต่อค่า Outlier มาก</li>
+                                    <li>หน่วยของ MSE เป็นหน่วยของตัวแปรตามยกกำลังสอง ทำให้ตีความได้ยาก</li>
+                                </ul>
+                                <p class="text-gray-700 mb-3"><strong>การใช้งาน:</strong></p>
+                                <ul class="list-disc pl-5 text-gray-700">
+                                    <li>ใช้เป็นฟังก์ชันการสูญเสีย (Loss Function) ในการฝึกโมเดล Regression</li>
+                                    <li>ใช้เปรียบเทียบประสิทธิภาพระหว่างโมเดลต่างๆ</li>
+                                    <li>เหมาะกับกรณีที่ต้องการลงโทษความผิดพลาดขนาดใหญ่มากกว่าความผิดพลาดขนาดเล็ก</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <canvas id="mse-chart" width="400" height="200"></canvas>
+                        </div>
+                    </div>
+
+                    <div id="rmse-detail" class="metric-detail bg-blue-50 p-5 rounded-lg mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-3">RMSE (Root Mean Squared Error) - รายละเอียด</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <p class="text-gray-700 mb-3"><strong>คำอธิบาย:</strong> RMSE คือรากที่สองของค่าเฉลี่ยของกำลังสองของความแตกต่างระหว่างค่าที่ทำนายได้กับค่าจริง</p>
+                                <p class="text-gray-700 mb-3"><strong>สูตร:</strong></p>
+                                <div class="formula mb-3">RMSE = √[(1/n) * Σ(y_i - ŷ_i)²]</div>
+                                <p class="text-gray-700 mb-3">โดยที่:</p>
+                                <ul class="list-disc pl-5 text-gray-700 mb-3">
+                                    <li>n คือจำนวนตัวอย่างทั้งหมด</li>
+                                    <li>y_i คือค่าจริงของตัวอย่างที่ i</li>
+                                    <li>ŷ_i คือค่าที่ทำนายได้ของตัวอย่างที่ i</li>
+                                </ul>
+                                <p class="text-gray-700 mb-3"><strong>การแปลผล:</strong></p>
+                                <ul class="list-disc pl-5 text-gray-700">
+                                    <li>ค่า RMSE ยิ่งน้อยยิ่งดี (ค่าต่ำสุดคือ 0)</li>
+                                    <li>ให้น้ำหนักกับความผิดพลาดขนาดใหญ่มากกว่าความผิดพลาดขนาดเล็ก</li>
+                                    <li>หน่วยของ RMSE เป็นหน่วยเดียวกับตัวแปรตาม ทำให้ตีความได้ง่ายกว่า MSE</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <p class="text-gray-700 mb-3"><strong>ข้อดี:</strong></p>
+                                <ul class="list-disc pl-5 text-gray-700 mb-3">
+                                    <li>มีหน่วยเดียวกับตัวแปรตาม ทำให้ตีความได้ง่าย</li>
+                                    <li>ลงโทษความผิดพลาดขนาดใหญ่มากกว่าความผิดพลาดขนาดเล็ก</li>
+                                    <li>เป็นที่นิยมใช้ในการเปรียบเทียบโมเดล</li>
+                                </ul>
+                                <p class="text-gray-700 mb-3"><strong>ข้อเสีย:</strong></p>
+                                <ul class="list-disc pl-5 text-gray-700 mb-3">
+                                    <li>ไวต่อค่า Outlier มาก</li>
+                                    <li>การคำนวณซับซ้อนกว่า MSE เล็กน้อย</li>
+                                </ul>
+                                <p class="text-gray-700 mb-3"><strong>การใช้งาน:</strong></p>
+                                <ul class="list-disc pl-5 text-gray-700">
+                                    <li>ใช้เปรียบเทียบประสิทธิภาพระหว่างโมเดลต่างๆ</li>
+                                    <li>ใช้ประเมินความแม่นยำของโมเดลในหน่วยเดียวกับตัวแปรตาม</li>
+                                    <li>นิยมใช้ในงานพยากรณ์ เช่น พยากรณ์ราคา พยากรณ์ยอดขาย</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <canvas id="rmse-chart" width="400" height="200"></canvas>
+                        </div>
+                    </div>
+
+                    <div id="mae-detail" class="metric-detail bg-blue-50 p-5 rounded-lg mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-3">MAE (Mean Absolute Error) - รายละเอียด</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <p class="text-gray-700 mb-3"><strong>คำอธิบาย:</strong> MAE คือค่าเฉลี่ยของค่าสัมบูรณ์ของความแตกต่างระหว่างค่าที่ทำนายได้กับค่าจริง</p>
+                                <p class="text-gray-700 mb-3"><strong>สูตร:</strong></p>
+                                <div class="formula mb-3">MAE = (1/n) * Σ|y_i - ŷ_i|</div>
+                                <p class="text-gray-700 mb-3">โดยที่:</p>
+                                <ul class="list-disc pl-5 text-gray-700 mb-3">
+                                    <li>n คือจำนวนตัวอย่างทั้งหมด</li>
+                                    <li>y_i คือค่าจริงของตัวอย่างที่ i</li>
+                                    <li>ŷ_i คือค่าที่ทำนายได้ของตัวอย่างที่ i</li>
+                                </ul>
+                                <p class="text-gray-700 mb-3"><strong>การแปลผล:</strong></p>
+                                <ul class="list-disc pl-5 text-gray-700">
+                                    <li>ค่า MAE ยิ่งน้อยยิ่งดี (ค่าต่ำสุดคือ 0)</li>
+                                    <li>ให้น้ำหนักกับความผิดพลาดทุกขนาดเท่ากัน</li>
+                                    <li>หน่วยของ MAE เป็นหน่วยเดียวกับตัวแปรตาม</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <p class="text-gray-700 mb-3"><strong>ข้อดี:</strong></p>
+                                <ul class="list-disc pl-5 text-gray-700 mb-3">
+                                    <li>มีหน่วยเดียวกับตัวแปรตาม ทำให้ตีความได้ง่าย</li>
+                                    <li>ทนทานต่อค่า Outlier มากกว่า MSE และ RMSE</li>
+                                    <li>ให้น้ำหนักกับความผิดพลาดทุกขนาดเท่ากัน</li>
+                                </ul>
+                                <p class="text-gray-700 mb-3"><strong>ข้อเสีย:</strong></p>
+                                <ul class="list-disc pl-5 text-gray-700 mb-3">
+                                    <li>ไม่ลงโทษความผิดพลาดขนาดใหญ่มากกว่าความผิดพลาดขนาดเล็ก</li>
+                                    <li>อนุพันธ์ไม่ต่อเนื่องที่จุด 0 ทำให้อาจมีปัญหาในการหาค่าต่ำสุด</li>
+                                </ul>
+                                <p class="text-gray-700 mb-3"><strong>การใช้งาน:</strong></p>
+                                <ul class="list-disc pl-5 text-gray-700">
+                                    <li>ใช้เป็นฟังก์ชันการสูญเสีย (Loss Function) ในการฝึกโมเดล Regression</li>
+                                    <li>ใช้เปรียบเทียบประสิทธิภาพระหว่างโมเดลต่างๆ</li>
+                                    <li>เหมาะกับกรณีที่ไม่ต้องการลงโทษความผิดพลาดขนาดใหญ่มากกว่าความผิดพลาดขนาดเล็ก</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <canvas id="mae-chart" width="400" height="200"></canvas>
+                        </div>
+                    </div>
+
+                    <div id="r2-detail" class="metric-detail bg-blue-50 p-5 rounded-lg mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-3">R-squared (Coefficient of Determination) - รายละเอียด</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <p class="text-gray-700 mb-3"><strong>คำอธิบาย:</strong> R-squared คือสัดส่วนของความแปรปรวนในตัวแปรตามที่สามารถอธิบายได้ด้วยโมเดล</p>
+                                <p class="text-gray-700 mb-3"><strong>สูตร:</strong></p>
+                                <div class="formula mb-3">R² = 1 - [Σ(y_i - ŷ_i)² / Σ(y_i - ȳ)²]</div>
+                                <p class="text-gray-700 mb-3">โดยที่:</p>
+                                <ul class="list-disc pl-5 text-gray-700 mb-3">
+                                    <li>y_i คือค่าจริงของตัวอย่างที่ i</li>
+                                    <li>ŷ_i คือค่าที่ทำนายได้ของตัวอย่างที่ i</li>
+                                    <li>ȳ คือค่าเฉลี่ยของค่าจริงทั้งหมด</li>
+                                </ul>
+                                <p class="text-gray-700 mb-3"><strong>การแปลผล:</strong></p>
+                                <ul class="list-disc pl-5 text-gray-700">
+                                    <li>ค่า R² อยู่ระหว่าง 0 ถึง 1 (ในบางกรณีอาจติดลบได้)</li>
+                                    <li>ค่า R² ยิ่งมากยิ่งดี (ค่าสูงสุดคือ 1)</li>
+                                    <li>R² = 1 หมายถึงโมเดลสามารถอธิบายความแปรปรวนของข้อมูลได้ทั้งหมด</li>
+                                    <li>R² = 0 หมายถึงโมเดลไม่สามารถอธิบายความแปรปรวนของข้อมูลได้เลย</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <p class="text-gray-700 mb-3"><strong>ข้อดี:</strong></p>
+                                <ul class="list-disc pl-5 text-gray-700 mb-3">
+                                    <li>ไม่มีหน่วย ทำให้เปรียบเทียบระหว่างโมเดลต่างๆ ได้ง่าย</li>
+                                    <li>ตีความได้ง่ายในรูปของสัดส่วนความแปรปรวนที่อธิบายได้</li>
+                                    <li>เป็นที่นิยมและเข้าใจกันอย่างแพร่หลาย</li>
+                                </ul>
+                                <p class="text-gray-700 mb-3"><strong>ข้อเสีย:</strong></p>
+                                <ul class="list-disc pl-5 text-gray-700 mb-3">
+                                    <li>ค่า R² จะเพิ่มขึ้นเสมอเมื่อเพิ่มตัวแปรอิสระ แม้ว่าตัวแปรนั้นจะไม่มีความสัมพันธ์กับตัวแปรตามก็ตาม</li>
+                                    <li>ไม่สามารถบอกได้ว่าโมเดลมีความแม่นยำในการทำนายมากน้อยเพียงใด</li>
+                                    <li>อาจให้ค่าติดลบได้ในบางกรณี</li>
+                                </ul>
+                                <p class="text-gray-700 mb-3"><strong>การใช้งาน:</strong></p>
+                                <ul class="list-disc pl-5 text-gray-700">
+                                    <li>ใช้วัดความสามารถในการอธิบายความแปรปรวนของข้อมูลของโมเดล</li>
+                                    <li>ใช้เปรียบเทียบประสิทธิภาพระหว่างโมเดลต่างๆ</li>
+                                    <li>ใช้ในการรายงานผลการวิเคราะห์การถดถอย</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <canvas id="r2-chart" width="400" height="200"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="bg-yellow-50 p-5 rounded-lg border-l-4 border-yellow-500">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">เปรียบเทียบเมตริกสำหรับ Regression</h4>
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full bg-white border border-gray-200">
+                                <thead>
+                                    <tr class="bg-gray-100">
+                                        <th class="py-2 px-4 border-b text-left">เมตริก</th>
+                                        <th class="py-2 px-4 border-b text-left">ช่วงค่า</th>
+                                        <th class="py-2 px-4 border-b text-left">ค่าที่ดีที่สุด</th>
+                                        <th class="py-2 px-4 border-b text-left">ความไวต่อ Outlier</th>
+                                        <th class="py-2 px-4 border-b text-left">หน่วย</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="py-2 px-4 border-b">MSE</td>
+                                        <td class="py-2 px-4 border-b">0 ถึง ∞</td>
+                                        <td class="py-2 px-4 border-b">0</td>
+                                        <td class="py-2 px-4 border-b">สูงมาก</td>
+                                        <td class="py-2 px-4 border-b">หน่วยของตัวแปรตาม²</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-2 px-4 border-b">RMSE</td>
+                                        <td class="py-2 px-4 border-b">0 ถึง ∞</td>
+                                        <td class="py-2 px-4 border-b">0</td>
+                                        <td class="py-2 px-4 border-b">สูง</td>
+                                        <td class="py-2 px-4 border-b">หน่วยของตัวแปรตาม</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-2 px-4 border-b">MAE</td>
+                                        <td class="py-2 px-4 border-b">0 ถึง ∞</td>
+                                        <td class="py-2 px-4 border-b">0</td>
+                                        <td class="py-2 px-4 border-b">ปานกลาง</td>
+                                        <td class="py-2 px-4 border-b">หน่วยของตัวแปรตาม</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-2 px-4 border-b">R-squared</td>
+                                        <td class="py-2 px-4 border-b">-∞ ถึง 1</td>
+                                        <td class="py-2 px-4 border-b">1</td>
+                                        <td class="py-2 px-4 border-b">ปานกลาง</td>
+                                        <td class="py-2 px-4 border-b">ไม่มีหน่วย</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Classification Metrics Section -->
+        <section class="mb-12">
+            <div class="gradient-bg-2 rounded-xl shadow-md overflow-hidden">
+                <div class="py-4 px-6">
+                    <h2 class="text-2xl font-bold text-white">เมตริกสำหรับ Classification</h2>
+                </div>
+                <div class="bg-white p-6">
+                    <p class="text-gray-700 mb-6">เมตริกเหล่านี้ใช้วัดความแม่นยำของโมเดลในการจำแนกประเภทหรือคลาส โดยเปรียบเทียบคลาสที่ทำนายได้กับคลาสจริง</p>
+                    
+                    <div class="bg-gray-100 p-5 rounded-lg mb-6">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-3">Confusion Matrix (เมทริกซ์ความสับสน)</h3>
+                        <p class="text-gray-700 mb-4">Confusion Matrix เป็นตารางที่แสดงผลการจำแนกประเภทของโมเดล โดยเปรียบเทียบระหว่างคลาสที่ทำนายได้กับคลาสจริง ซึ่งเป็นพื้นฐานในการคำนวณเมตริกอื่นๆ</p>
+                        
+                        <div class="flex justify-center mb-4">
+                            <div class="grid grid-cols-2 gap-0">
+                                <div class="bg-white p-4 border border-gray-300 font-semibold text-center">True Positive (TP)</div>
+                                <div class="bg-white p-4 border border-gray-300 font-semibold text-center">False Positive (FP)</div>
+                                <div class="bg-white p-4 border border-gray-300 font-semibold text-center">False Negative (FN)</div>
+                                <div class="bg-white p-4 border border-gray-300 font-semibold text-center">True Negative (TN)</div>
+                            </div>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <p class="text-gray-700 mb-2"><strong>True Positive (TP):</strong> ทำนายว่าเป็นคลาสบวก และเป็นคลาสบวกจริง</p>
+                                <p class="text-gray-700 mb-2"><strong>False Positive (FP):</strong> ทำนายว่าเป็นคลาสบวก แต่เป็นคลาสลบจริง (Type I Error)</p>
+                            </div>
+                            <div>
+                                <p class="text-gray-700 mb-2"><strong>False Negative (FN):</strong> ทำนายว่าเป็นคลาสลบ แต่เป็นคลาสบวกจริง (Type II Error)</p>
+                                <p class="text-gray-700 mb-2"><strong>True Negative (TN):</strong> ทำนายว่าเป็นคลาสลบ และเป็นคลาสลบจริง</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                        <div id="accuracy-card" class="metric-card bg-pink-50 rounded-lg shadow-md p-5 border-2 border-transparent">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 bg-pink-100 rounded-full flex items-center justify-center mr-4">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-pink-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                </div>
+                                <h3 class="text-xl font-semibold text-gray-800">Accuracy (ความแม่นยำ)</h3>
+                            </div>
+                            <p class="text-gray-700 mb-3">สัดส่วนของการทำนายที่ถูกต้องทั้งหมด</p>
+                            <div class="formula mb-3">Accuracy = (TP + TN) / (TP + TN + FP + FN)</div>
+                            <div class="flex justify-end">
+                                <button class="text-pink-600 hover:text-pink-800 font-medium">ดูรายละเอียด ▼</button>
+                            </div>
+                        </div>
+
+                        <div id="precision-card" class="metric-card bg-pink-50 rounded-lg shadow-md p-5 border-2 border-transparent">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 bg-pink-100 rounded-full flex items-center justify-center mr-4">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-pink-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                                    </svg>
+                                </div>
+                                <h3 class="text-xl font-semibold text-gray-800">Precision (ความเที่ยง)</h3>
+                            </div>
+                            <p class="text-gray-700 mb-3">สัดส่วนของการทำนายคลาสบวกที่ถูกต้อง</p>
+                            <div class="formula mb-3">Precision = TP / (TP + FP)</div>
+                            <div class="flex justify-end">
+                                <button class="text-pink-600 hover:text-pink-800 font-medium">ดูรายละเอียด ▼</button>
+                            </div>
+                        </div>
+
+                        <div id="recall-card" class="metric-card bg-pink-50 rounded-lg shadow-md p-5 border-2 border-transparent">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 bg-pink-100 rounded-full flex items-center justify-center mr-4">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-pink-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                                    </svg>
+                                </div>
+                                <h3 class="text-xl font-semibold text-gray-800">Recall (ความไว)</h3>
+                            </div>
+                            <p class="text-gray-700 mb-3">สัดส่วนของคลาสบวกจริงที่ถูกทำนายว่าเป็นคลาสบวก</p>
+                            <div class="formula mb-3">Recall = TP / (TP + FN)</div>
+                            <div class="flex justify-end">
+                                <button class="text-pink-600 hover:text-pink-800 font-medium">ดูรายละเอียด ▼</button>
+                            </div>
+                        </div>
+
+                        <div id="f1-card" class="metric-card bg-pink-50 rounded-lg shadow-md p-5 border-2 border-transparent">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 bg-pink-100 rounded-full flex items-center justify-center mr-4">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-pink-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                                    </svg>
+                                </div>
+                                <h3 class="text-xl font-semibold text-gray-800">F1-score</h3>
+                            </div>
+                            <p class="text-gray-700 mb-3">ค่าเฉลี่ยฮาร์โมนิกของ Precision และ Recall</p>
+                            <div class="formula mb-3">F1 = 2 * (Precision * Recall) / (Precision + Recall)</div>
+                            <div class="flex justify-end">
+                                <button class="text-pink-600 hover:text-pink-800 font-medium">ดูรายละเอียด ▼</button>
+                            </div>
+                        </div>
+
+                        <div id="roc-card" class="metric-card bg-pink-50 rounded-lg shadow-md p-5 border-2 border-transparent">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 bg-pink-100 rounded-full flex items-center justify-center mr-4">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-pink-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z" />
+                                    </svg>
+                                </div>
+                                <h3 class="text-xl font-semibold text-gray-800">ROC-AUC</h3>
+                            </div>
+                            <p class="text-gray-700 mb-3">พื้นที่ใต้กราฟ ROC (Receiver Operating Characteristic)</p>
+                            <div class="formula mb-3">AUC = พื้นที่ใต้กราฟ ROC</div>
+                            <div class="flex justify-end">
+                                <button class="text-pink-600 hover:text-pink-800 font-medium">ดูรายละเอียด ▼</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="accuracy-detail" class="metric-detail bg-pink-50 p-5 rounded-lg mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-3">Accuracy (ความแม่นยำ) - รายละเอียด</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <p class="text-gray-700 mb-3"><strong>คำอธิบาย:</strong> Accuracy คือสัดส่วนของการทำนายที่ถูกต้องทั้งหมด</p>
+                                <p class="text-gray-700 mb-3"><strong>สูตร:</strong></p>
+                                <div class="formula mb-3">Accuracy = (TP + TN) / (TP + TN + FP + FN)</div>
+                                <p class="text-gray-700 mb-3">โดยที่:</p>
+                                <ul class="list-disc pl-5 text-gray-700 mb-3">
+                                    <li>TP (True Positive) คือจำนวนตัวอย่างที่ทำนายว่าเป็นคลาสบวก และเป็นคลาสบวกจริง</li>
+                                    <li>TN (True Negative) คือจำนวนตัวอย่างที่ทำนายว่าเป็นคลาสลบ และเป็นคลาสลบจริง</li>
+                                    <li>FP (False Positive) คือจำนวนตัวอย่างที่ทำนายว่าเป็นคลาสบวก แต่เป็นคลาสลบจริง</li>
+                                    <li>FN (False Negative) คือจำนวนตัวอย่างที่ทำนายว่าเป็นคลาสลบ แต่เป็นคลาสบวกจริง</li>
+                                </ul>
+                                <p class="text-gray-700 mb-3"><strong>การแปลผล:</strong></p>
+                                <ul class="list-disc pl-5 text-gray-700">
+                                    <li>ค่า Accuracy อยู่ระหว่าง 0 ถึง 1 (หรือ 0% ถึง 100%)</li>
+                                    <li>ค่า Accuracy ยิ่งมากยิ่งดี (ค่าสูงสุดคือ 1 หรือ 100%)</li>
+                                    <li>Accuracy = 1 หมายถึงโมเดลทำนายได้ถูกต้องทั้งหมด</li>
+                                    <li>Accuracy = 0 หมายถึงโมเดลทำนายผิดทั้งหมด</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <p class="text-gray-700 mb-3"><strong>ข้อดี:</strong></p>
+                                <ul class="list-disc pl-5 text-gray-700 mb-3">
+                                    <li>เข้าใจง่าย</li>
+                                    <li>คำนวณง่าย</li>
+                                    <li>เหมาะสำหรับปัญหาที่มีความสมดุลของคลาส</li>
+                                </ul>
+                                <p class="text-gray-700 mb-3"><strong>ข้อเสีย:</strong></p>
+                                <ul class="list-disc pl-5 text-gray-700 mb-3">
+                                    <li>ไม่เหมาะสำหรับปัญหาที่มีความไม่สมดุลของคลาส (Class Imbalance)</li>
+                                    <li>อาจทำให้เข้าใจผิดเกี่ยวกับประสิทธิภาพของโมเดลในกรณีที่คลาสไม่สมดุล</li>
+                                </ul>
+                                <p class="text-gray-700 mb-3"><strong>การใช้งาน:</strong></p>
+                                <ul class="list-disc pl-5 text-gray-700">
+                                    <li>ใช้วัดประสิทธิภาพโดยรวมของโมเดล</li>
+                                    <li>เหมาะสำหรับปัญหาที่มีความสมดุลของคลาส</li>
+                                    <li>ใช้เป็นเมตริกเริ่มต้นในการประเมินโมเดล</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <canvas id="accuracy-chart" width="400" height="200"></canvas>
+                        </div>
+                    </div>
+
+                    <div id="precision-detail" class="metric-detail bg-pink-50 p-5 rounded-lg mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-3">Precision (ความเที่ยง) - รายละเอียด</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <p class="text-gray-700 mb-3"><strong>คำอธิบาย:</strong> Precision คือสัดส่วนของการทำนายคลาสบวกที่ถูกต้อง</p>
+                                <p class="text-gray-700 mb-3"><strong>สูตร:</strong></p>
+                                <div class="formula mb-3">Precision = TP / (TP + FP)</div>
+                                <p class="text-gray-700 mb-3">โดยที่:</p>
+                                <ul class="list-disc pl-5 text-gray-700 mb-3">
+                                    <li>TP (True Positive) คือจำนวนตัวอย่างที่ทำนายว่าเป็นคลาสบวก และเป็นคลาสบวกจริง</li>
+                                    <li>FP (False Positive) คือจำนวนตัวอย่างที่ทำนายว่าเป็นคลาสบวก แต่เป็นคลาสลบจริง</li>
+                                </ul>
+                                <p class="text-gray-700 mb-3"><strong>การแปลผล:</strong></p>
+                                <ul class="list-disc pl-5 text-gray-700">
+                                    <li>ค่า Precision อยู่ระหว่าง 0 ถึง 1 (หรือ 0% ถึง 100%)</li>
+                                    <li>ค่า Precision ยิ่งมากยิ่งดี (ค่าสูงสุดคือ 1 หรือ 100%)</li>
+                                    <li>Precision = 1 หมายถึงไม่มี False Positive เลย (ทุกครั้งที่ทำนายว่าเป็นคลาสบวก จะเป็นคลาสบวกจริง)</li>
+                                    <li>Precision = 0 หมายถึงไม่มี True Positive เลย (ทุกครั้งที่ทำนายว่าเป็นคลาสบวก จะเป็นคลาสลบจริง)</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <p class="text-gray-700 mb-3"><strong>ข้อดี:</strong></p>
+                                <ul class="list-disc pl-5 text-gray-700 mb-3">
+                                    <li>เหมาะสำหรับปัญหาที่ต้องการลดความผิดพลาดแบบ False Positive</li>
+                                    <li>ใช้วัดความน่าเชื่อถือของการทำนายคลาสบวก</li>
+                                    <li>ไม่ได้รับผลกระทบจากจำนวน True Negative</li>
+                                </ul>
+                                <p class="text-gray-700 mb-3"><strong>ข้อเสีย:</strong></p>
+                                <ul class="list-disc pl-5 text-gray-700 mb-3">
+                                    <li>ไม่ได้พิจารณา False Negative</li>
+                                    <li>อาจทำให้เข้าใจผิดในกรณีที่มี Class Imbalance</li>
+                                </ul>
+                                <p class="text-gray-700 mb-3"><strong>การใช้งาน:</strong></p>
+                                <ul class="list-disc pl-5 text-gray-700">
+                                    <li>ใช้ในกรณีที่ต้นทุนของ False Positive สูง</li>
+                                    <li>เช่น การกรองสแปม (ต้องการให้แน่ใจว่าอีเมลที่ถูกทำนายว่าเป็นสแปมนั้นเป็นสแปมจริงๆ)</li>
+                                    <li>การวินิจฉัยโรค (ต้องการให้แน่ใจว่าผู้ป่วยที่ถูกวินิจฉัยว่าเป็นโรคนั้นเป็นโรคจริงๆ)</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <canvas id="precision-chart" width="400" height="200"></canvas>
+                        </div>
+                    </div>
+
+                    <div id="recall-detail" class="metric-detail bg-pink-50 p-5 rounded-lg mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-3">Recall (ความไว) - รายละเอียด</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <p class="text-gray-700 mb-3"><strong>คำอธิบาย:</strong> Recall คือสัดส่วนของคลาสบวกจริงที่ถูกทำนายว่าเป็นคลาสบวก</p>
+                                <p class="text-gray-700 mb-3"><strong>สูตร:</strong></p>
+                                <div class="formula mb-3">Recall = TP / (TP + FN)</div>
+                                <p class="text-gray-700 mb-3">โดยที่:</p>
+                                <ul class="list-disc pl-5 text-gray-700 mb-3">
+                                    <li>TP (True Positive) คือจำนวนตัวอย่างที่ทำนายว่าเป็นคลาสบวก และเป็นคลาสบวกจริง</li>
+                                    <li>FN (False Negative) คือจำนวนตัวอย่างที่ทำนายว่าเป็นคลาสลบ แต่เป็นคลาสบวกจริง</li>
+                                </ul>
+                                <p class="text-gray-700 mb-3"><strong>การแปลผล:</strong></p>
+                                <ul class="list-disc pl-5 text-gray-700">
+                                    <li>ค่า Recall อยู่ระหว่าง 0 ถึง 1 (หรือ 0% ถึง 100%)</li>
+                                    <li>ค่า Recall ยิ่งมากยิ่งดี (ค่าสูงสุดคือ 1 หรือ 100%)</li>
+                                    <li>Recall = 1 หมายถึงไม่มี False Negative เลย (ทุกตัวอย่างที่เป็นคลาสบวกจริงถูกทำนายว่าเป็นคลาสบวก)</li>
+                                    <li>Recall = 0 หมายถึงไม่มี True Positive เลย (ทุกตัวอย่างที่เป็นคลาสบวกจริงถูกทำนายว่าเป็นคลาสลบ)</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <p class="text-gray-700 mb-3"><strong>ข้อดี:</strong></p>
+                                <ul class="list-disc pl-5 text-gray-700 mb-3">
+                                    <li>เหมาะสำหรับปัญหาที่ต้องการลดความผิดพลาดแบบ False Negative</li>
+                                    <li>ใช้วัดความสามารถในการค้นหาคลาสบวกทั้งหมด</li>
+                                    <li>ไม่ได้รับผลกระทบจากจำนวน True Negative</li>
+                                </ul>
+                                <p class="text-gray-700 mb-3"><strong>ข้อเสีย:</strong></p>
+                                <ul class="list-disc pl-5 text-gray-700 mb-3">
+                                    <li>ไม่ได้พิจารณา False Positive</li>
+                                    <li>อาจทำให้เข้าใจผิดในกรณีที่มี Class Imbalance</li>
+                                </ul>
+                                <p class="text-gray-700 mb-3"><strong>การใช้งาน:</strong></p>
+                                <ul class="list-disc pl-5 text-gray-700">
+                                    <li>ใช้ในกรณีที่ต้นทุนของ False Negative สูง</li>
+                                    <li>เช่น การตรวจจับการฉ้อโกง (ต้องการตรวจจับการฉ้อโกงให้ได้มากที่สุด)</li>
+                                    <li>การวินิจฉัยโรคร้ายแรง (ต้องการตรวจพบผู้ป่วยที่เป็นโรคให้ได้มากที่สุด)</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <canvas id="recall-chart" width="400" height="200"></canvas>
+                        </div>
+                    </div>
+
+                    <div id="f1-detail" class="metric-detail bg-pink-50 p-5 rounded-lg mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-3">F1-score - รายละเอียด</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <p class="text-gray-700 mb-3"><strong>คำอธิบาย:</strong> F1-score คือค่าเฉลี่ยฮาร์โมนิกของ Precision และ Recall</p>
+                                <p class="text-gray-700 mb-3"><strong>สูตร:</strong></p>
+                                <div class="formula mb-3">F1 = 2 * (Precision * Recall) / (Precision + Recall)</div>
+                                <p class="text-gray-700 mb-3">โดยที่:</p>
+                                <ul class="list-disc pl-5 text-gray-700 mb-3">
+                                    <li>Precision = TP / (TP + FP)</li>
+                                    <li>Recall = TP / (TP + FN)</li>
+                                </ul>
+                                <p class="text-gray-700 mb-3"><strong>การแปลผล:</strong></p>
+                                <ul class="list-disc pl-5 text-gray-700">
+                                    <li>ค่า F1-score อยู่ระหว่าง 0 ถึง 1 (หรือ 0% ถึง 100%)</li>
+                                    <li>ค่า F1-score ยิ่งมากยิ่งดี (ค่าสูงสุดคือ 1 หรือ 100%)</li>
+                                    <li>F1-score จะมีค่าสูงเมื่อทั้ง Precision และ Recall มีค่าสูง</li>
+                                    <li>F1-score จะมีค่าต่ำเมื่อ Precision หรือ Recall มีค่าต่ำ</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <p class="text-gray-700 mb-3"><strong>ข้อดี:</strong></p>
+                                <ul class="list-disc pl-5 text-gray-700 mb-3">
+                                    <li>พิจารณาทั้ง Precision และ Recall</li>
+                                    <li>เหมาะสำหรับปัญหาที่มีความไม่สมดุลของคลาส</li>
+                                    <li>ให้ความสำคัญกับค่าที่ต่ำระหว่าง Precision และ Recall</li>
+                                </ul>
+                                <p class="text-gray-700 mb-3"><strong>ข้อเสีย:</strong></p>
+                                <ul class="list-disc pl-5 text-gray-700 mb-3">
+                                    <li>ไม่ได้พิจารณา True Negative</li>
+                                    <li>ให้น้ำหนักเท่ากันระหว่าง Precision และ Recall</li>
+                                </ul>
+                                <p class="text-gray-700 mb-3"><strong>การใช้งาน:</strong></p>
+                                <ul class="list-disc pl-5 text-gray-700">
+                                    <li>ใช้เมื่อต้องการสมดุลระหว่าง Precision และ Recall</li>
+                                    <li>ใช้ในปัญหาที่มีความไม่สมดุลของคลาส</li>
+                                    <li>ใช้เมื่อต้องการเมตริกเดียวที่สะท้อนทั้ง Precision และ Recall</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <canvas id="f1-chart" width="400" height="200"></canvas>
+                        </div>
+                    </div>
+
+                    <div id="roc-detail" class="metric-detail bg-pink-50 p-5 rounded-lg mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-3">ROC-AUC - รายละเอียด</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <p class="text-gray-700 mb-3"><strong>คำอธิบาย:</strong> ROC-AUC คือพื้นที่ใต้กราฟ ROC (Receiver Operating Characteristic) ซึ่งแสดงความสัมพันธ์ระหว่าง True Positive Rate (TPR) และ False Positive Rate (FPR) ที่ threshold ต่างๆ</p>
+                                <p class="text-gray-700 mb-3"><strong>สูตร:</strong></p>
+                                <div class="formula mb-3">
+                                    TPR = TP / (TP + FN) = Recall<br>
+                                    FPR = FP / (FP + TN)<br>
+                                    AUC = พื้นที่ใต้กราฟ ROC
+                                </div>
+                                <p class="text-gray-700 mb-3"><strong>การแปลผล:</strong></p>
+                                <ul class="list-disc pl-5 text-gray-700">
+                                    <li>ค่า AUC อยู่ระหว่าง 0 ถึง 1</li>
+                                    <li>AUC = 1 หมายถึงโมเดลสามารถแยกคลาสได้อย่างสมบูรณ์</li>
+                                    <li>AUC = 0.5 หมายถึงโมเดลทำนายไม่ดีไปกว่าการสุ่ม</li>
+                                    <li>AUC = 0 หมายถึงโมเดลทำนายผิดทั้งหมด (แต่สามารถกลับการทำนายเพื่อให้ได้ AUC = 1)</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <p class="text-gray-700 mb-3"><strong>ข้อดี:</strong></p>
+                                <ul class="list-disc pl-5 text-gray-700 mb-3">
+                                    <li>ไม่ขึ้นกับ threshold ที่เลือก</li>
+                                    <li>ทนทานต่อความไม่สมดุลของคลาส</li>
+                                    <li>วัดความสามารถในการจัดอันดับของโมเดล</li>
+                                </ul>
+                                <p class="text-gray-700 mb-3"><strong>ข้อเสีย:</strong></p>
+                                <ul class="list-disc pl-5 text-gray-700 mb-3">
+                                    <li>ไม่ได้บอกถึงประสิทธิภาพที่ threshold ใดๆ โดยเฉพาะ</li>
+                                    <li>อาจทำให้เข้าใจผิดในกรณีที่มีความไม่สมดุลของคลาสมาก</li>
+                                </ul><script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'960283a095ff5833',t:'MTc1MjY3OTU0Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
