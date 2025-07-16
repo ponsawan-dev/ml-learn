@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ML Learn - Content Index</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap');
+        body {
+            font-family: 'Sarabun', sans-serif;
+            background-color: #f8fafc;
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            border-color: #3b82f6;
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+        }
+    </style>
+</head>
+<body>
+    <header class="gradient-bg text-white py-12 shadow-lg">
+        <div class="container mx-auto px-4">
+            <h1 class="text-4xl md:text-5xl font-bold text-center">Machine Learning Course</h1>
+            <p class="text-center text-xl mt-4">Content Index</p>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-12">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+            <a href="01-ML-Intro.html" class="card-hover bg-white rounded-xl shadow-md p-6 border-l-4 border-transparent transition-all duration-300">
+                <span class="text-sm font-semibold text-indigo-600 bg-indigo-100 py-1 px-3 rounded-full">01-ML-Intro.html</span>
+                <h2 class="text-2xl font-bold my-3 text-gray-800">ประเภทของ Machine Learning</h2>
+                <p class="text-gray-600">เรียนรู้เกี่ยวกับ Supervised, Unsupervised, และ Reinforcement Learning พร้อมตัวอย่างอัลกอริทึม</p>
+            </a>
+
+            <a href="01-ML-Models.html" class="card-hover bg-white rounded-xl shadow-md p-6 border-l-4 border-transparent transition-all duration-300">
+                <span class="text-sm font-semibold text-indigo-600 bg-indigo-100 py-1 px-3 rounded-full">01-ML-Models.html</span>
+                <h2 class="text-2xl font-bold my-3 text-gray-800">ประเภทของโมเดล AI</h2>
+                <p class="text-gray-600">สำรวจโมเดล AI ประเภทต่างๆ ตั้งแต่ Predictive, Descriptive, ไปจนถึง Generative models</p>
+            </a>
+
+            <a href="02-ML-Regression.html" class="card-hover bg-white rounded-xl shadow-md p-6 border-l-4 border-transparent transition-all duration-300">
+                <span class="text-sm font-semibold text-indigo-600 bg-indigo-100 py-1 px-3 rounded-full">02-ML-Regression.html</span>
+                <h2 class="text-2xl font-bold my-3 text-gray-800">พื้นฐาน: Linear Regression</h2>
+                <p class="text-gray-600">ทำความเข้าใจหลักการของ Linear Regression พร้อมหน้าจอทดลองแบบโต้ตอบ</p>
+            </a>
+
+            <a href="03-ML-Regression-Classification.html" class="card-hover bg-white rounded-xl shadow-md p-6 border-l-4 border-transparent transition-all duration-300">
+                <span class="text-sm font-semibold text-indigo-600 bg-indigo-100 py-1 px-3 rounded-full">03-ML-Regression-Classification.html</span>
+                <h2 class="text-2xl font-bold my-3 text-gray-800">Regression vs. Classification</h2>
+                <p class="text-gray-600">เปรียบเทียบความแตกต่างระหว่าง Regression และ Classification และอัลกอริทึมที่เกี่ยวข้อง</p>
+            </a>
+
+            <a href="04-ML-Evaluation.html" class="card-hover bg-white rounded-xl shadow-md p-6 border-l-4 border-transparent transition-all duration-300">
+                <span class="text-sm font-semibold text-indigo-600 bg-indigo-100 py-1 px-3 rounded-full">04-ML-Evaluation.html</span>
+                <h2 class="text-2xl font-bold my-3 text-gray-800">การวัดประสิทธิภาพโมเดล</h2>
+                <p class="text-gray-600">เรียนรู้เมตริกและฟังก์ชันการสูญเสียสำหรับวัดผลโมเดล Regression และ Classification</p>
+            </a>
+
+            <a href="05-ML-Logistics-Regression.html" class="card-hover bg-white rounded-xl shadow-md p-6 border-l-4 border-transparent transition-all duration-300">
+                <span class="text-sm font-semibold text-indigo-600 bg-indigo-100 py-1 px-3 rounded-full">05-ML-Logistics-Regression.html</span>
+                <h2 class="text-2xl font-bold my-3 text-gray-800">Logistic Regression ฉบับสมบูรณ์</h2>
+                <p class="text-gray-600">คู่มือเชิงลึกเกี่ยวกับ Logistic Regression พร้อมตัวอย่าง, การวัดผล, และ Demo</p>
+            </a>
+
+        </div>
+    </main>
+
+    <footer class="bg-gray-800 text-white py-6 mt-8">
+        <div class="container mx-auto px-4 text-center">
+            <p>&copy; 2023 ML Learn by Anusorn Chaikaew</p>
+        </div>
+    </footer>
+</body>
+</html>
