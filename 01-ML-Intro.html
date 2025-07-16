@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ประเภทของ Machine Learning และตัวอย่างอัลกอริทึม</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap');
+        body {
+            font-family: 'Sarabun', sans-serif;
+            background-color: #f8fafc;
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+        }
+    </style>
+</head>
+<body>
+    <header class="gradient-bg text-white py-8 shadow-lg">
+        <div class="container mx-auto px-4">
+            <h1 class="text-3xl md:text-4xl font-bold text-center">ประเภทของ Machine Learning</h1>
+            <p class="text-center text-xl mt-2">และตัวอย่างอัลกอริทึมที่นิยมใช้</p>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-8">
+        <section class="mb-12">
+            <div class="bg-white rounded-xl shadow-md p-6 mb-8">
+                <h2 class="text-2xl font-bold mb-4 text-gray-800">ประเภทของ Machine Learning</h2>
+                <p class="text-gray-700 mb-6">Machine Learning สามารถแบ่งออกเป็น 3 ประเภทหลักตามวิธีการเรียนรู้</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-blue-50 rounded-lg p-5 border-l-4 border-blue-500">
+                        <h3 class="text-xl font-semibold text-blue-700 mb-2">Supervised Learning</h3>
+                        <p class="text-gray-700">การเรียนรู้แบบมีผู้สอน: เรียนรู้จากข้อมูลที่มีคำตอบ (Label) กำกับไว้แล้ว</p>
+                    </div>
+                    
+                    <div class="bg-green-50 rounded-lg p-5 border-l-4 border-green-500">
+                        <h3 class="text-xl font-semibold text-green-700 mb-2">Unsupervised Learning</h3>
+                        <p class="text-gray-700">การเรียนรู้แบบไม่มีผู้สอน: เรียนรู้จากข้อมูลที่ไม่มีคำตอบกำกับ</p>
+                    </div>
+                    
+                    <div class="bg-purple-50 rounded-lg p-5 border-l-4 border-purple-500">
+                        <h3 class="text-xl font-semibold text-purple-700 mb-2">Reinforcement Learning</h3>
+                        <p class="text-gray-700">การเรียนรู้แบบเสริมแรง: เรียนรู้จากการลองผิดลองถูกและรางวัล</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Supervised Learning Section -->
+        <section class="mb-12">
+            <div class="bg-blue-50 rounded-xl shadow-md overflow-hidden">
+                <div class="bg-blue-600 py-4 px-6">
+                    <h2 class="text-2xl font-bold text-white">Supervised Learning (การเรียนรู้แบบมีผู้สอน)</h2>
+                </div>
+                <div class="p-6">
+                    <p class="text-gray-700 mb-6">อัลกอริทึมเรียนรู้จากข้อมูลที่มีคำตอบ (Label) กำกับไว้แล้ว เพื่อทำนายผลลัพธ์สำหรับข้อมูลใหม่</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                        <div class="bg-white rounded-lg shadow-md p-5 transition-all duration-300 card-hover">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mr-4">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                                    </svg>
+                                </div>
+                                <h3 class="text-xl font-semibold text-gray-800">Linear Regression</h3>
+                            </div>
+                            <p class="text-gray-700 mb-3">ใช้สำหรับการทำนายค่าต่อเนื่อง โดยหาความสัมพันธ์เชิงเส้นระหว่างตัวแปรอิสระและตัวแปรตาม</p>
+                            <div class="bg-gray-100 p-3 rounded-lg">
+                                <p class="text-gray-700"><strong>ตัวอย่างการใช้งาน:</strong> ทำนายราคาบ้าน, ทำนายยอดขาย, ทำนายอุณหภูมิ</p>
+                            </div>
+                            <div class="mt-4 flex justify-center">
+                                <svg width="200" height="120" viewBox="0 0 200 120">
+                                    <line x1="20" y1="100" x2="180" y2="100" stroke="#94a3b8" stroke-width="2" />
+                                    <line x1="20" y1="100" x2="20" y2="20" stroke="#94a3b8" stroke-width="2" />
+                                    <line x1="20" y1="100" x2="180" y2="30" stroke="#3b82f6" stroke-width="3" />
+                                    <circle cx="40" cy="90" r="4" fill="#ef4444" />
+                                    <circle cx="70" cy="75" r="4" fill="#ef4444" />
+                                    <circle cx="100" cy="65" r="4" fill="#ef4444" />
+                                    <circle cx="130" cy="50" r="4" fill="#ef4444" />
+                                    <circle cx="160" cy="35" r="4" fill="#ef4444" />
+                                </svg>
+                            </div>
+                        </div>
+
+                        <div class="bg-white rounded-lg shadow-md p-5 transition-all duration-300 card-hover">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mr-4">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
+                                    </svg>
+                                </div>
+                                <h3 class="text-xl font-semibold text-gray-800">Logistic Regression</h3>
+                            </div>
+                            <p class="text-gray-700 mb-3">ใช้สำหรับการจำแนกประเภท (Classification) โดยทำนายความน่าจะเป็นที่ข้อมูลจะอยู่ในคลาสใดคลาสหนึ่ง</p>
+                            <div class="bg-gray-100 p-3 rounded-lg">
+                                <p class="text-gray-700"><strong>ตัวอย่างการใช้งาน:</strong> ทำนายว่าอีเมลเป็นสแปมหรือไม่, ทำนายว่าลูกค้าจะซื้อสินค้าหรือไม่</p>
+                            </div>
+                            <div class="mt-4 flex justify-center">
+                                <svg width="200" height="120" viewBox="0 0 200 120">
+                                    <line x1="20" y1="100" x2="180" y2="100" stroke="#94a3b8" stroke-width="2" />
+                                    <line x1="20" y1="100" x2="20" y2="20" stroke="#94a3b8" stroke-width="2" />
+                                    <path d="M20,90 Q100,10 180,30" stroke="#3b82f6" stroke-width="3" fill="none" />
+                                    <circle cx="40" cy="90" r="4" fill="#ef4444" />
+                                    <circle cx="60" cy="30" r="4" fill="#22c55e" />
+                                    <circle cx="80" cy="30" r="4" fill="#22c55e" />
+                                    <circle cx="100" cy="30" r="4" fill="#22c55e" />
+                                    <circle cx="120" cy="30" r="4" fill="#22c55e" />
+                                    <circle cx="140" cy="90" r="4" fill="#ef4444" />
+                                    <circle cx="160" cy="90" r="4" fill="#ef4444" />
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-white rounded-lg shadow-md p-5 transition-all duration-300 card-hover">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mr-4">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                                    </svg>
+                                </div>
+                                <h3 class="text-xl font-semibold text-gray-800">Decision Trees</h3>
+                            </div>
+                            <p class="text-gray-700 mb-3">สร้างโมเดลการตัดสินใจในรูปแบบของต้นไม้ โดยแต่ละโหนดแทนการตัดสินใจบนคุณลักษณะหนึ่งๆ</p>
+                            <div class="bg-gray-100 p-3 rounded-lg">
+                                <p class="text-gray-700"><strong>ตัวอย่างการใช้งาน:</strong> ระบบแนะนำสินเชื่อ, การวินิจฉัยโรค, การทำนายพฤติกรรมลูกค้า</p>
+                            </div>
+                            <div class="mt-4 flex justify-center">
+                                <svg width="200" height="120" viewBox="0 0 200 120">
+                                    <line x1="100" y1="20" x2="100" y2="40" stroke="#94a3b8" stroke-width="2" />
+                                    <line x1="100" y1="40" x2="50" y2="60" stroke="#94a3b8" stroke-width="2" />
+                                    <line x1="100" y1="40" x2="150" y2="60" stroke="#94a3b8" stroke-width="2" />
+                                    <line x1="50" y1="60" x2="30" y2="80" stroke="#94a3b8" stroke-width="2" />
+                                    <line x1="50" y1="60" x2="70" y2="80" stroke="#94a3b8" stroke-width="2" />
+                                    <line x1="150" y1="60" x2="130" y2="80" stroke="#94a3b8" stroke-width="2" />
+                                    <line x1="150" y1="60" x2="170" y2="80" stroke="#94a3b8" stroke-width="2" />
+                                    <circle cx="100" cy="20" r="10" fill="#3b82f6" />
+                                    <circle cx="50" cy="60" r="10" fill="#3b82f6" />
+                                    <circle cx="150" cy="60" r="10" fill="#3b82f6" />
+                                    <circle cx="30" cy="80" r="10" fill="#22c55e" />
+                                    <circle cx="70" cy="80" r="10" fill="#ef4444" />
+                                    <circle cx="130" cy="80" r="10" fill="#22c55e" />
+                                    <circle cx="170" cy="80" r="10" fill="#ef4444" />
+                                </svg>
+                            </div>
+                        </div>
+
+                        <div class="bg-white rounded-lg shadow-md p-5 transition-all duration-300 card-hover">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mr-4">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4" />
+                                    </svg>
+                                </div>
+                                <h3 class="text-xl font-semibold text-gray-800">Support Vector Machines (SVM)</h3>
+                            </div>
+                            <p class="text-gray-700 mb-3">หาเส้นแบ่ง (Hyperplane) ที่ดีที่สุดเพื่อแยกข้อมูลออกเป็นคลาสต่างๆ โดยมีระยะห่างจากข้อมูลมากที่สุด</p>
+                            <div class="bg-gray-100 p-3 rounded-lg">
+                                <p class="text-gray-700"><strong>ตัวอย่างการใช้งาน:</strong> การจำแนกรูปภาพ, การวิเคราะห์ข้อความ, การตรวจจับใบหน้า</p>
+                            </div>
+                            <div class="mt-4 flex justify-center">
+                                <svg width="200" height="120" viewBox="0 0 200 120">
+                                    <line x1="20" y1="100" x2="180" y2="20" stroke="#3b82f6" stroke-width="3" stroke-dasharray="5,5" />
+                                    <line x1="30" y1="95" x2="190" y2="15" stroke="#3b82f6" stroke-width="2" />
+                                    <line x1="10" y1="105" x2="170" y2="25" stroke="#3b82f6" stroke-width="2" />
+                                    <circle cx="40" cy="40" r="5" fill="#22c55e" />
+                                    <circle cx="60" cy="30" r="5" fill="#22c55e" />
+                                    <circle cx="50" cy="50" r="5" fill="#22c55e" />
+                                    <circle cx="70" cy="45" r="5" fill="#22c55e" />
+                                    <circle cx="130" cy="70" r="5" fill="#ef4444" />
+                                    <circle cx="150" cy="80" r="5" fill="#ef4444" />
+                                    <circle cx="140" cy="90" r="5" fill="#ef4444" />
+                                    <circle cx="160" cy="85" r="5" fill="#ef4444" />
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Unsupervised Learning Section -->
+        <section class="mb-12">
+            <div class="bg-green-50 rounded-xl shadow-md overflow-hidden">
+                <div class="bg-green-600 py-4 px-6">
+                    <h2 class="text-2xl font-bold text-white">Unsupervised Learning (การเรียนรู้แบบไม่มีผู้สอน)</h2>
+                </div>
+                <div class="p-6">
+                    <p class="text-gray-700 mb-6">อัลกอริทึมเรียนรู้จากข้อมูลที่ไม่มีคำตอบกำกับ เพื่อค้นหาโครงสร้างหรือรูปแบบที่ซ่อนอยู่ในข้อมูล</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                        <div class="bg-white rounded-lg shadow-md p-5 transition-all duration-300 card-hover">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mr-4">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z" />
+                                    </svg>
+                                </div>
+                                <h3 class="text-xl font-semibold text-gray-800">K-Means Clustering</h3>
+                            </div>
+                            <p class="text-gray-700 mb-3">แบ่งข้อมูลออกเป็นกลุ่ม (Cluster) โดยข้อมูลในกลุ่มเดียวกันจะมีความคล้ายคลึงกัน</p>
+                            <div class="bg-gray-100 p-3 rounded-lg">
+                                <p class="text-gray-700"><strong>ตัวอย่างการใช้งาน:</strong> การแบ่งกลุ่มลูกค้า, การแบ่งกลุ่มเอกสาร, การบีบอัดรูปภาพ</p>
+                            </div>
+                            <div class="mt-4 flex justify-center">
+                                <svg width="200" height="120" viewBox="0 0 200 120">
+                                    <circle cx="50" cy="40" r="5" fill="#22c55e" />
+                                    <circle cx="60" cy="30" r="5" fill="#22c55e" />
+                                    <circle cx="45" cy="50" r="5" fill="#22c55e" />
+                                    <circle cx="55" cy="45" r="5" fill="#22c55e" />
+                                    <circle cx="50" cy="35" r="10" fill="#22c55e" opacity="0.3" />
+                                    
+                                    <circle cx="130" cy="40" r="5" fill="#3b82f6" />
+                                    <circle cx="140" cy="30" r="5" fill="#3b82f6" />
+                                    <circle cx="125" cy="50" r="5" fill="#3b82f6" />
+                                    <circle cx="135" cy="45" r="5" fill="#3b82f6" />
+                                    <circle cx="130" cy="35" r="10" fill="#3b82f6" opacity="0.3" />
+                                    
+                                    <circle cx="90" cy="90" r="5" fill="#ef4444" />
+                                    <circle cx="100" cy="80" r="5" fill="#ef4444" />
+                                    <circle cx="85" cy="100" r="5" fill="#ef4444" />
+                                    <circle cx="95" cy="95" r="5" fill="#ef4444" />
+                                    <circle cx="90" cy="85" r="10" fill="#ef4444" opacity="0.3" />
+                                </svg>
+                            </div>
+                        </div>
+
+                        <div class="bg-white rounded-lg shadow-md p-5 transition-all duration-300 card-hover">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mr-4">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                                    </svg>
+                                </div>
+                                <h3 class="text-xl font-semibold text-gray-800">Hierarchical Clustering</h3>
+                            </div>
+                            <p class="text-gray-700 mb-3">สร้างลำดับชั้นของกลุ่มข้อมูล โดยเริ่มจากแต่ละข้อมูลเป็นกลุ่มแยก แล้วค่อยๆ รวมกลุ่มที่คล้ายกันเข้าด้วยกัน</p>
+                            <div class="bg-gray-100 p-3 rounded-lg">
+                                <p class="text-gray-700"><strong>ตัวอย่างการใช้งาน:</strong> การจัดหมวดหมู่เอกสาร, การวิเคราะห์ลำดับพันธุกรรม, การแบ่งกลุ่มลูกค้า</p>
+                            </div>
+                            <div class="mt-4 flex justify-center">
+                                <svg width="200" height="120" viewBox="0 0 200 120">
+                                    <line x1="100" y1="20" x2="100" y2="40" stroke="#94a3b8" stroke-width="2" />
+                                    <line x1="100" y1="40" x2="50" y2="60" stroke="#94a3b8" stroke-width="2" />
+                                    <line x1="100" y1="40" x2="150" y2="60" stroke="#94a3b8" stroke-width="2" />
+                                    <line x1="50" y1="60" x2="30" y2="80" stroke="#94a3b8" stroke-width="2" />
+                                    <line x1="50" y1="60" x2="70" y2="80" stroke="#94a3b8" stroke-width="2" />
+                                    <line x1="150" y1="60" x2="130" y2="80" stroke="#94a3b8" stroke-width="2" />
+                                    <line x1="150" y1="60" x2="170" y2="80" stroke="#94a3b8" stroke-width="2" />
+                                    <circle cx="30" cy="80" r="5" fill="#22c55e" />
+                                    <circle cx="70" cy="80" r="5" fill="#22c55e" />
+                                    <circle cx="130" cy="80" r="5" fill="#3b82f6" />
+                                    <circle cx="170" cy="80" r="5" fill="#3b82f6" />
+                                    <circle cx="50" cy="60" r="5" fill="#ef4444" />
+                                    <circle cx="150" cy="60" r="5" fill="#ef4444" />
+                                    <circle cx="100" cy="40" r="5" fill="#9333ea" />
+                                    <circle cx="100" cy="20" r="5" fill="#9333ea" />
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-white rounded-lg shadow-md p-5 transition-all duration-300 card-hover">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mr-4">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z" />
+                                    </svg>
+                                </div>
+                                <h3 class="text-xl font-semibold text-gray-800">Principal Component Analysis (PCA)</h3>
+                            </div>
+                            <p class="text-gray-700 mb-3">ลดมิติของข้อมูลโดยการแปลงข้อมูลไปยังมิติใหม่ที่สามารถอธิบายความแปรปรวนของข้อมูลได้มากที่สุด</p>
+                            <div class="bg-gray-100 p-3 rounded-lg">
+                                <p class="text-gray-700"><strong>ตัวอย่างการใช้งาน:</strong> การลดมิติข้อมูล, การบีบอัดข้อมูล, การแสดงผลข้อมูลหลายมิติ</p>
+                            </div>
+                            <div class="mt-4 flex justify-center">
+                                <svg width="200" height="120" viewBox="0 0 200 120">
+                                    <line x1="20" y1="100" x2="180" y2="100" stroke="#94a3b8" stroke-width="1" />
+                                    <line x1="20" y1="100" x2="20" y2="20" stroke="#94a3b8" stroke-width="1" />
+                                    <line x1="40" y1="90" x2="160" y2="30" stroke="#ef4444" stroke-width="3" />
+                                    <line x1="100" y1="110" x2="100" y2="10" stroke="#3b82f6" stroke-width="3" stroke-dasharray="5,5" />
+                                    <circle cx="60" cy="70" r="4" fill="#22c55e" />
+                                    <circle cx="80" cy="60" r="4" fill="#22c55e" />
+                                    <circle cx="100" cy="50" r="4" fill="#22c55e" />
+                                    <circle cx="120" cy="40" r="4" fill="#22c55e" />
+                                    <circle cx="140" cy="30" r="4" fill="#22c55e" />
+                                </svg>
+                            </div>
+                        </div>
+
+                        <div class="bg-white rounded-lg shadow-md p-5 transition-all duration-300 card-hover">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mr-4">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+                                    </svg>
+                                </div>
+                                <h3 class="text-xl font-semibold text-gray-800">Anomaly Detection</h3>
+                            </div>
+                            <p class="text-gray-700 mb-3">ค้นหาข้อมูลที่ผิดปกติหรือแตกต่างจากข้อมูลส่วนใหญ่อย่างมีนัยสำคัญ</p>
+                            <div class="bg-gray-100 p-3 rounded-lg">
+                                <p class="text-gray-700"><strong>ตัวอย่างการใช้งาน:</strong> การตรวจจับการฉ้อโกง, การตรวจจับความผิดปกติในระบบเครือข่าย, การตรวจจับความผิดปกติในเครื่องจักร</p>
+                            </div>
+                            <div class="mt-4 flex justify-center">
+                                <svg width="200" height="120" viewBox="0 0 200 120">
+                                    <circle cx="60" cy="40" r="4" fill="#22c55e" />
+                                    <circle cx="70" cy="50" r="4" fill="#22c55e" />
+                                    <circle cx="65" cy="60" r="4" fill="#22c55e" />
+                                    <circle cx="55" cy="55" r="4" fill="#22c55e" />
+                                    <circle cx="50" cy="45" r="4" fill="#22c55e" />
+                                    <circle cx="60" cy="50" r="15" fill="#22c55e" opacity="0.2" />
+                                    
+                                    <circle cx="130" cy="60" r="4" fill="#22c55e" />
+                                    <circle cx="140" cy="70" r="4" fill="#22c55e" />
+                                    <circle cx="135" cy="80" r="4" fill="#22c55e" />
+                                    <circle cx="125" cy="75" r="4" fill="#22c55e" />
+                                    <circle cx="120" cy="65" r="4" fill="#22c55e" />
+                                    <circle cx="130" cy="70" r="15" fill="#22c55e" opacity="0.2" />
+                                    
+                                    <circle cx="100" cy="30" r="6" fill="#ef4444" stroke="#ef4444" stroke-width="2" />
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Reinforcement Learning Section -->
+        <section class="mb-12">
+            <div class="bg-purple-50 rounded-xl shadow-md overflow-hidden">
+                <div class="bg-purple-600 py-4 px-6">
+                    <h2 class="text-2xl font-bold text-white">Reinforcement Learning (การเรียนรู้แบบเสริมแรง)</h2>
+                </div>
+                <div class="p-6">
+                    <p class="text-gray-700 mb-6">อัลกอริทึมเรียนรู้จากการลองผิดลองถูกและรางวัล โดยตัวแทน (Agent) จะเรียนรู้ว่าควรทำการกระทำใดในสถานการณ์ต่างๆ เพื่อให้ได้รับรางวัลสูงสุด</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                        <div class="bg-white rounded-lg shadow-md p-5 transition-all duration-300 card-hover">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mr-4">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                </div>
+                                <h3 class="text-xl font-semibold text-gray-800">Q-Learning</h3>
+                            </div>
+                            <p class="text-gray-700 mb-3">เรียนรู้ค่าคุณภาพ (Q-value) ของการกระทำในแต่ละสถานการณ์ เพื่อหานโยบาย (Policy) ที่ดีที่สุด</p>
+                            <div class="bg-gray-100 p-3 rounded-lg">
+                                <p class="text-gray-700"><strong>ตัวอย่างการใช้งาน:</strong> การควบคุมหุ่นยนต์, การเล่นเกม, การจัดการทรัพยากร</p>
+                            </div>
+                            <div class="mt-4 flex justify-center">
+                                <svg width="200" height="120" viewBox="0 0 200 120">
+                                    <rect x="20" y="20" width="30" height="30" fill="#f3e8ff" stroke="#9333ea" />
+                                    <rect x="50" y="20" width="30" height="30" fill="#f3e8ff" stroke="#9333ea" />
+                                    <rect x="80" y="20" width="30" height="30" fill="#f3e8ff" stroke="#9333ea" />
+                                    <rect x="110" y="20" width="30" height="30" fill="#f3e8ff" stroke="#9333ea" />
+                                    <rect x="140" y="20" width="30" height="30" fill="#22c55e" stroke="#9333ea" />
+                                    
+                                    <rect x="20" y="50" width="30" height="30" fill="#f3e8ff" stroke="#9333ea" />
+                                    <rect x="50" y="50" width="30" height="30" fill="#ef4444" stroke="#9333ea" />
+                                    <rect x="80" y="50" width="30" height="30" fill="#f3e8ff" stroke="#9333ea" />
+                                    <rect x="110" y="50" width="30" height="30" fill="#f3e8ff" stroke="#9333ea" />
+                                    <rect x="140" y="50" width="30" height="30" fill="#f3e8ff" stroke="#9333ea" />
+                                    
+                                    <rect x="20" y="80" width="30" height="30" fill="#f3e8ff" stroke="#9333ea" />
+                                    <rect x="50" y="80" width="30" height="30" fill="#f3e8ff" stroke="#9333ea" />
+                                    <rect x="80" y="80" width="30" height="30" fill="#f3e8ff" stroke="#9333ea" />
+                                    <rect x="110" y="80" width="30" height="30" fill="#ef4444" stroke="#9333ea" />
+                                    <rect x="140" y="80" width="30" height="30" fill="#f3e8ff" stroke="#9333ea" />
+                                    
+                                    <circle cx="35" cy="35" r="8" fill="#3b82f6" />
+                                    <path d="M35,35 L80,50 L125,80 L155,35" stroke="#3b82f6" stroke-width="2" fill="none" stroke-dasharray="5,3" />
+                                </svg>
+                            </div>
+                        </div>
+
+                        <div class="bg-white rounded-lg shadow-md p-5 transition-all duration-300 card-hover">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mr-4">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                                    </svg>
+                                </div>
+                                <h3 class="text-xl font-semibold text-gray-800">Deep Q-Network (DQN)</h3>
+                            </div>
+                            <p class="text-gray-700 mb-3">ใช้ Deep Neural Network ในการประมาณค่า Q-value สำหรับสถานการณ์ที่มีความซับซ้อนและมีมิติสูง</p>
+                            <div class="bg-gray-100 p-3 rounded-lg">
+                                <p class="text-gray-700"><strong>ตัวอย่างการใช้งาน:</strong> การเล่นเกมที่ซับซ้อน, การควบคุมหุ่นยนต์ในสภาพแวดล้อมจริง, การขับรถอัตโนมัติ</p>
+                            </div>
+                            <div class="mt-4 flex justify-center">
+                                <svg width="200" height="120" viewBox="0 0 200 120">
+                                    <rect x="20" y="40" width="40" height="40" fill="#f3e8ff" stroke="#9333ea" />
+                                    <text x="40" y="65" text-anchor="middle" font-size="12" fill="#9333ea">State</text>
+                                    
+                                    <rect x="140" y="40" width="40" height="40" fill="#f3e8ff" stroke="#9333ea" />
+                                    <text x="160" y="65" text-anchor="middle" font-size="12" fill="#9333ea">Action</text>
+                                    
+                                    <circle cx="80" cy="40" r="10" fill="#3b82f6" />
+                                    <circle cx="100" cy="30" r="10" fill="#3b82f6" />
+                                    <circle cx="120" cy="40" r="10" fill="#3b82f6" />
+                                    
+                                    <circle cx="80" cy="60" r="10" fill="#3b82f6" />
+                                    <circle cx="100" cy="60" r="10" fill="#3b82f6" />
+                                    <circle cx="120" cy="60" r="10" fill="#3b82f6" />
+                                    
+                                    <circle cx="80" cy="80" r="10" fill="#3b82f6" />
+                                    <circle cx="100" cy="90" r="10" fill="#3b82f6" />
+                                    <circle cx="120" cy="80" r="10" fill="#3b82f6" />
+                                    
+                                    <line x1="60" y1="60" x2="70" y2="40" stroke="#94a3b8" stroke-width="2" />
+                                    <line x1="60" y1="60" x2="70" y2="60" stroke="#94a3b8" stroke-width="2" />
+                                    <line x1="60" y1="60" x2="70" y2="80" stroke="#94a3b8" stroke-width="2" />
+                                    
+                                    <line x1="90" y1="40" x2="100" y2="30" stroke="#94a3b8" stroke-width="2" />
+                                    <line x1="90" y1="60" x2="100" y2="30" stroke="#94a3b8" stroke-width="2" />
+                                    <line x1="90" y1="80" x2="100" y2="30" stroke="#94a3b8" stroke-width="2" />
+                                    
+                                    <line x1="110" y1="30" x2="120" y2="40" stroke="#94a3b8" stroke-width="2" />
+                                    <line x1="110" y1="60" x2="120" y2="40" stroke="#94a3b8" stroke-width="2" />
+                                    <line x1="110" y1="90" x2="120" y2="40" stroke="#94a3b8" stroke-width="2" />
+                                    
+                                    <line x1="130" y1="40" x2="140" y2="60" stroke="#94a3b8" stroke-width="2" />
+                                    <line x1="130" y1="60" x2="140" y2="60" stroke="#94a3b8" stroke-width="2" />
+                                    <line x1="130" y1="80" x2="140" y2="60" stroke="#94a3b8" stroke-width="2" />
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-white rounded-lg shadow-md p-5 transition-all duration-300 card-hover">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mr-4">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                                    </svg>
+                                </div>
+                                <h3 class="text-xl font-semibold text-gray-800">Policy Gradient</h3>
+                            </div>
+                            <p class="text-gray-700 mb-3">เรียนรู้นโยบาย (Policy) โดยตรง โดยปรับปรุงพารามิเตอร์ของนโยบายเพื่อเพิ่มผลตอบแทนที่คาดหวัง</p>
+                            <div class="bg-gray-100 p-3 rounded-lg">
+                                <p class="text-gray-700"><strong>ตัวอย่างการใช้งาน:</strong> การควบคุมหุ่นยนต์ที่มีการเคลื่อนไหวต่อเนื่อง, การเล่นเกมที่มีพื้นที่การกระทำต่อเนื่อง</p>
+                            </div>
+                            <div class="mt-4 flex justify-center">
+                                <svg width="200" height="120" viewBox="0 0 200 120">
+                                    <circle cx="40" cy="60" r="20" fill="#f3e8ff" stroke="#9333ea" stroke-width="2" />
+                                    <text x="40" y="65" text-anchor="middle" font-size="12" fill="#9333ea">Agent</text>
+                                    
+                                    <circle cx="160" cy="60" r="20" fill="#f3e8ff" stroke="#9333ea" stroke-width="2" />
+                                    <text x="160" y="65" text-anchor="middle" font-size="12" fill="#9333ea">Reward</text>
+                                    
+                                    <path d="M60,60 C80,30 120,90 140,60" stroke="#3b82f6" stroke-width="3" fill="none" />
+                                    <path d="M140,60 C120,30 80,90 60,60" stroke="#3b82f6" stroke-width="3" fill="none" stroke-dasharray="5,3" />
+                                    
+                                    <circle cx="100" cy="60" r="15" fill="#22c55e" opacity="0.2" />
+                                    <text x="100" y="65" text-anchor="middle" font-size="10" fill="#22c55e">Policy</text>
+                                </svg>
+                            </div>
+                        </div>
+
+                        <div class="bg-white rounded-lg shadow-md p-5 transition-all duration-300 card-hover">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mr-4">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
+                                    </svg>
+                                </div>
+                                <h3 class="text-xl font-semibold text-gray-800">Actor-Critic</h3>
+                            </div>
+                            <p class="text-gray-700 mb-3">ผสมผสานระหว่าง Value-based และ Policy-based โดยมีส่วน Actor ที่เรียนรู้นโยบาย และส่วน Critic ที่ประเมินค่าของสถานการณ์</p>
+                            <div class="bg-gray-100 p-3 rounded-lg">
+                                <p class="text-gray-700"><strong>ตัวอย่างการใช้งาน:</strong> การควบคุมหุ่นยนต์ที่ซับซ้อน, การเล่นเกมที่มีพื้นที่สถานะและการกระทำขนาดใหญ่</p>
+                            </div>
+                            <div class="mt-4 flex justify-center">
+                                <svg width="200" height="120" viewBox="0 0 200 120">
+                                    <rect x="20" y="40" width="40" height="40" fill="#f3e8ff" stroke="#9333ea" />
+                                    <text x="40" y="65" text-anchor="middle" font-size="12" fill="#9333ea">State</text>
+                                    
+                                    <rect x="140" y="20" width="40" height="30" fill="#f3e8ff" stroke="#9333ea" />
+                                    <text x="160" y="40" text-anchor="middle" font-size="12" fill="#9333ea">Action</text>
+                                    
+                                    <rect x="140" y="70" width="40" height="30" fill="#f3e8ff" stroke="#9333ea" />
+                                    <text x="160" y="90" text-anchor="middle" font-size="12" fill="#9333ea">Value</text>
+                                    
+                                    <rect x="80" y="20" width="40" height="30" fill="#3b82f6" />
+                                    <text x="100" y="40" text-anchor="middle" font-size="12" fill="white">Actor</text>
+                                    
+                                    <rect x="80" y="70" width="40" height="30" fill="#ef4444" />
+                                    <text x="100" y="90" text-anchor="middle" font-size="12" fill="white">Critic</text>
+                                    
+                                    <line x1="60" y1="60" x2="80" y2="35" stroke="#94a3b8" stroke-width="2" />
+                                    <line x1="60" y1="60" x2="80" y2="85" stroke="#94a3b8" stroke-width="2" />
+                                    <line x1="120" y1="35" x2="140" y2="35" stroke="#94a3b8" stroke-width="2" />
+                                    <line x1="120" y1="85" x2="140" y2="85" stroke="#94a3b8" stroke-width="2" />
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-white rounded-lg shadow-md p-6 mb-8">
+            <h2 class="text-2xl font-bold mb-4 text-gray-800">เปรียบเทียบประเภทของ Machine Learning</h2>
+            <div class="overflow-x-auto">
+                <table class="min-w-full bg-white border border-gray-200">
+                    <thead>
+                        <tr class="bg-gray-100">
+                            <th class="py-3 px-4 border-b text-left">ประเภท</th>
+                            <th class="py-3 px-4 border-b text-left">ข้อมูลที่ใช้</th>
+                            <th class="py-3 px-4 border-b text-left">เป้าหมาย</th>
+                            <th class="py-3 px-4 border-b text-left">ตัวอย่างอัลกอริทึม</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="py-3 px-4 border-b font-medium text-blue-700">Supervised Learning</td>
+                            <td class="py-3 px-4 border-b">ข้อมูลที่มีคำตอบ (Label) กำกับ</td>
+                            <td class="py-3 px-4 border-b">ทำนายผลลัพธ์สำหรับข้อมูลใหม่</td>
+                            <td class="py-3 px-4 border-b">Linear Regression, Logistic Regression, Decision Trees, SVM, Neural Networks</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 border-b font-medium text-green-700">Unsupervised Learning</td>
+                            <td class="py-3 px-4 border-b">ข้อมูลที่ไม่มีคำตอบกำกับ</td>
+                            <td class="py-3 px-4 border-b">ค้นหาโครงสร้างหรือรูปแบบที่ซ่อนอยู่ในข้อมูล</td>
+                            <td class="py-3 px-4 border-b">K-Means Clustering, Hierarchical Clustering, PCA, Anomaly Detection</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 border-b font-medium text-purple-700">Reinforcement Learning</td>
+                            <td class="py-3 px-4 border-b">ข้อมูลจากการลองผิดลองถูกและรางวัล</td>
+                            <td class="py-3 px-4 border-b">เรียนรู้นโยบายที่ดีที่สุดเพื่อให้ได้รับรางวัลสูงสุด</td>
+                            <td class="py-3 px-4 border-b">Q-Learning, Deep Q-Network, Policy Gradient, Actor-Critic</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-gray-800 text-white py-6">
+        <div class="container mx-auto px-4 text-center">
+            <p>© 2023 ประเภทของ Machine Learning และตัวอย่างอัลกอริทึม</p>
+        </div>
+    </footer>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9602805265425833',t:'MTc1MjY3OTQxMS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
