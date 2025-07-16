@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logistic Regression - คู่มือฉบับสมบูรณ์</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Sarabun', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .section-card {
+            transition: all 0.3s ease;
+        }
+        
+        .section-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .step-item {
+            opacity: 0.6;
+            transition: all 0.3s ease;
+        }
+        
+        .step-item.active {
+            opacity: 1;
+            transform: scale(1.02);
+        }
+        
+        .formula-box {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 16px 0;
+        }
+        
+        .interactive-demo {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .metric-card {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            border-radius: 8px;
+            padding: 16px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .metric-card:hover {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <div class="container mx-auto px-4 py-8 max-w-6xl">
+        <!-- Header -->
+        <header class="text-center mb-12">
+            <h1 class="text-5xl font-bold text-white mb-4">Logistic Regression</h1>
+            <p class="text-xl text-white opacity-90">คู่มือฉบับสมบูรณ์พร้อมตัวอย่างและการวัดประสิทธิภาพ</p>
+        </header>
+
+        <!-- Navigation -->
+        <nav class="bg-white rounded-xl shadow-lg p-4 mb-8">
+            <div class="flex flex-wrap justify-center gap-4">
+                <button class="nav-btn bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition" data-section="origin">ที่มาของชื่อ</button>
+                <button class="nav-btn bg-gray-200 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-300 transition" data-section="concept">แนวคิดพื้นฐาน</button>
+                <button class="nav-btn bg-gray-200 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-300 transition" data-section="steps">ขั้นตอนการทำงาน</button>
+                <button class="nav-btn bg-gray-200 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-300 transition" data-section="example">ตัวอย่างการใช้งาน</button>
+                <button class="nav-btn bg-gray-200 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-300 transition" data-section="metrics">การวัดประสิทธิภาพ</button>
+                <button class="nav-btn bg-gray-200 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-300 transition" data-section="demo">Demo แบบโต้ตอบ</button>
+            </div>
+        </nav>
+
+        <!-- Origin Section -->
+        <section id="origin" class="section-content">
+            <div class="section-card bg-white rounded-xl shadow-lg p-8 mb-8">
+                <h2 class="text-3xl font-bold text-gray-800 mb-6">🔍 ที่มาของชื่อ "Logistic Regression"</h2>
+                
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="text-xl font-semibold text-blue-700 mb-4">ประวัติศาสตร์</h3>
+                        <div class="space-y-4 text-gray-700">
+                            <p><strong>ปี 1838:</strong> Pierre François Verhulst นักคณิตศาสตร์ชาวเบลเยียม พัฒนา "Logistic Function" เพื่อศึกษาการเติบโตของประชากร</p>
+                            <p><strong>ปี 1944:</strong> Joseph Berkson นำ Logistic Function มาใช้ในทางสถิติและตั้งชื่อว่า "Logit"</p>
+                            <p><strong>ปี 1958:</strong> David Cox พัฒนาเป็น "Logistic Regression" ที่ใช้กันในปัจจุบัน</p>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-xl font-semibold text-blue-700 mb-4">ความหมายของชื่อ</h3>
+                        <div class="bg-blue-50 p-4 rounded-lg">
+                            <p class="text-gray-700 mb-2"><strong>"Logistic"</strong> มาจากคำว่า "Logistique" ในภาษาฝรั่งเศส หมายถึง "การคำนวณ" หรือ "ตรรกะ"</p>
+                            <p class="text-gray-700 mb-2"><strong>"Regression"</strong> หมายถึง "การถดถอย" หรือการหาความสัมพันธ์ระหว่างตัวแปร</p>
+                            <p class="text-gray-700"><strong>รวมกัน:</strong> "การถดถอยแบบลอจิสติก" - การหาความสัมพันธ์โดยใช้ฟังก์ชันลอจิสติก</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="formula-box mt-6">
+                    <h3 class="text-xl font-semibold mb-4">🧮 ฟังก์ชันลอจิสติก (Sigmoid Function)</h3>
+                    <div class="text-center text-2xl font-mono mb-4">
+                        σ(z) = 1 / (1 + e^(-z))
+                    </div>
+                    <p class="text-center">ฟังก์ชันนี้จะให้ค่าระหว่าง 0 ถึง 1 เสมอ เหมาะสำหรับการทำนายความน่าจะเป็น</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Concept Section -->
+        <section id="concept" class="section-content hidden">
+            <div class="section-card bg-white rounded-xl shadow-lg p-8 mb-8">
+                <h2 class="text-3xl font-bold text-gray-800 mb-6">💡 แนวคิดพื้นฐาน</h2>
+                
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="text-xl font-semibold text-green-700 mb-4">ความแตกต่างจาก Linear Regression</h3>
+                        <div class="space-y-4">
+                            <div class="bg-red-50 p-4 rounded-lg border-l-4 border-red-400">
+                                <h4 class="font-semibold text-red-700">Linear Regression</h4>
+                                <p class="text-gray-700">ทำนายค่าต่อเนื่อง (เช่น ราคา, น้ำหนัก)</p>
+                                <p class="text-gray-700">ผลลัพธ์: -∞ ถึง +∞</p>
+                            </div>
+                            <div class="bg-green-50 p-4 rounded-lg border-l-4 border-green-400">
+                                <h4 class="font-semibold text-green-700">Logistic Regression</h4>
+                                <p class="text-gray-700">ทำนายความน่าจะเป็น (เช่น ผ่าน/ไม่ผ่าน)</p>
+                                <p class="text-gray-700">ผลลัพธ์: 0 ถึง 1</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-xl font-semibold text-green-700 mb-4">หลักการทำงาน</h3>
+                        <div class="space-y-3">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-8 h-8 bg-blue-500 text-white rounded-full flex items-center justify-center font-bold">1</div>
+                                <p class="text-gray-700">รับข้อมูลนำเข้า (features)</p>
+                            </div>
+                            <div class="flex items-center space-x-3">
+                                <div class="w-8 h-8 bg-blue-500 text-white rounded-full flex items-center justify-center font-bold">2</div>
+                                <p class="text-gray-700">คำนวณ Linear Combination</p>
+                            </div>
+                            <div class="flex items-center space-x-3">
+                                <div class="w-8 h-8 bg-blue-500 text-white rounded-full flex items-center justify-center font-bold">3</div>
+                                <p class="text-gray-700">ใช้ Sigmoid Function</p>
+                            </div>
+                            <div class="flex items-center space-x-3">
+                                <div class="w-8 h-8 bg-blue-500 text-white rounded-full flex items-center justify-center font-bold">4</div>
+                                <p class="text-gray-700">ได้ความน่าจะเป็น (0-1)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-8">
+                    <h3 class="text-xl font-semibold text-green-700 mb-4">📊 การแสดงผลด้วยกราฟ</h3>
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <canvas id="sigmoidChart" width="400" height="200"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Steps Section -->
+        <section id="steps" class="section-content hidden">
+            <div class="section-card bg-white rounded-xl shadow-lg p-8 mb-8">
+                <h2 class="text-3xl font-bold text-gray-800 mb-6">⚙️ ขั้นตอนการทำงานอย่างละเอียด</h2>
+                
+                <div class="space-y-6">
+                    <div class="step-item active bg-gradient-to-r from-blue-50 to-indigo-50 p-6 rounded-lg border-l-4 border-blue-500">
+                        <h3 class="text-xl font-semibold text-blue-700 mb-3">ขั้นตอนที่ 1: เตรียมข้อมูล (Data Preparation)</h3>
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div>
+                                <h4 class="font-semibold text-gray-700 mb-2">การทำความสะอาดข้อมูล:</h4>
+                                <ul class="list-disc pl-5 text-gray-600 space-y-1">
+                                    <li>ลบข้อมูลที่ขาดหายไป (Missing Values)</li>
+                                    <li>จัดการข้อมูลผิดปกติ (Outliers)</li>
+                                    <li>แปลงข้อมูลเป็นตัวเลข (Encoding)</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-700 mb-2">การปรับมาตรฐาน:</h4>
+                                <ul class="list-disc pl-5 text-gray-600 space-y-1">
+                                    <li>Standardization (z-score)</li>
+                                    <li>Normalization (0-1 scaling)</li>
+                                    <li>Feature Selection</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step-item bg-gradient-to-r from-green-50 to-emerald-50 p-6 rounded-lg border-l-4 border-green-500">
+                        <h3 class="text-xl font-semibold text-green-700 mb-3">ขั้นตอนที่ 2: สร้างสมการเชิงเส้น (Linear Combination)</h3>
+                        <div class="formula-box">
+                            <div class="text-center text-xl font-mono mb-2">
+                                z = β₀ + β₁x₁ + β₂x₂ + ... + βₙxₙ
+                            </div>
+                            <div class="text-sm text-center opacity-90">
+                                <p>β₀ = Intercept (ค่าคงที่)</p>
+                                <p>β₁, β₂, ..., βₙ = Coefficients (สัมประสิทธิ์)</p>
+                                <p>x₁, x₂, ..., xₙ = Features (ตัวแปรอิสระ)</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step-item bg-gradient-to-r from-purple-50 to-pink-50 p-6 rounded-lg border-l-4 border-purple-500">
+                        <h3 class="text-xl font-semibold text-purple-700 mb-3">ขั้นตอนที่ 3: ใช้ Sigmoid Function</h3>
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div>
+                                <div class="formula-box">
+                                    <div class="text-center text-xl font-mono mb-2">
+                                        P(y=1) = 1 / (1 + e^(-z))
+                                    </div>
+                                    <p class="text-center text-sm">แปลงค่า z เป็นความน่าจะเป็น</p>
+                                </div>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-700 mb-2">คุณสมบัติของ Sigmoid:</h4>
+                                <ul class="list-disc pl-5 text-gray-600 space-y-1">
+                                    <li>ค่าอยู่ระหว่าง 0 ถึง 1</li>
+                                    <li>เป็นเส้นโค้ง S-shape</li>
+                                    <li>Smooth และ Differentiable</li>
+                                    <li>เหมาะสำหรับ Binary Classification</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step-item bg-gradient-to-r from-yellow-50 to-orange-50 p-6 rounded-lg border-l-4 border-yellow-500">
+                        <h3 class="text-xl font-semibold text-yellow-700 mb-3">ขั้นตอนที่ 4: การเรียนรู้ (Training)</h3>
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div>
+                                <h4 class="font-semibold text-gray-700 mb-2">Maximum Likelihood Estimation:</h4>
+                                <div class="bg-yellow-100 p-3 rounded">
+                                    <p class="text-gray-700 text-sm">หาค่า β ที่ทำให้ likelihood สูงสุด</p>
+                                    <p class="text-gray-700 text-sm">ใช้ Gradient Descent หรือ Newton-Raphson</p>
+                                </div>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-700 mb-2">Cost Function:</h4>
+                                <div class="bg-yellow-100 p-3 rounded">
+                                    <p class="text-gray-700 text-sm font-mono">J(β) = -Σ[y·log(p) + (1-y)·log(1-p)]</p>
+                                    <p class="text-gray-700 text-sm">Log-likelihood function</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step-item bg-gradient-to-r from-red-50 to-rose-50 p-6 rounded-lg border-l-4 border-red-500">
+                        <h3 class="text-xl font-semibold text-red-700 mb-3">ขั้นตอนที่ 5: การทำนาย (Prediction)</h3>
+                        <div class="grid md:grid-cols-3 gap-4">
+                            <div class="text-center">
+                                <div class="bg-red-100 p-4 rounded-lg">
+                                    <h4 class="font-semibold text-red-700">Input</h4>
+                                    <p class="text-gray-600">ข้อมูลใหม่</p>
+                                </div>
+                            </div>
+                            <div class="text-center">
+                                <div class="bg-red-100 p-4 rounded-lg">
+                                    <h4 class="font-semibold text-red-700">Process</h4>
+                                    <p class="text-gray-600">คำนวณความน่าจะเป็น</p>
+                                </div>
+                            </div>
+                            <div class="text-center">
+                                <div class="bg-red-100 p-4 rounded-lg">
+                                    <h4 class="font-semibold text-red-700">Output</h4>
+                                    <p class="text-gray-600">Class (0 หรือ 1)</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-4 bg-red-100 p-3 rounded text-center">
+                            <p class="text-gray-700"><strong>Decision Rule:</strong> ถ้า P(y=1) ≥ 0.5 → Class 1, ถ้า P(y=1) < 0.5 → Class 0</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-8 text-center">
+                    <button id="animateSteps" class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition">
+                        🎬 เล่นแอนิเมชันขั้นตอน
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Example Section -->
+        <section id="example" class="section-content hidden">
+            <div class="section-card bg-white rounded-xl shadow-lg p-8 mb-8">
+                <h2 class="text-3xl font-bold text-gray-800 mb-6">📚 ตัวอย่างการใช้งานจริง</h2>
+                
+                <div class="bg-gradient-to-r from-blue-500 to-purple-600 text-white p-6 rounded-lg mb-6">
+                    <h3 class="text-2xl font-bold mb-2">🎓 ตัวอย่าง: ทำนายการสอบผ่าน</h3>
+                    <p class="text-lg">ทำนายว่านักเรียนจะสอบผ่านหรือไม่ จากจำนวนชั่วโมงที่ศึกษาและคะแนนสอบกลางภาค</p>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="text-xl font-semibold text-gray-700 mb-4">📊 ข้อมูลตัวอย่าง</h3>
+                        <div class="overflow-x-auto">
+                            <table class="w-full border-collapse border border-gray-300">
+                                <thead class="bg-gray-100">
+                                    <tr>
+                                        <th class="border border-gray-300 p-2">ชั่วโมงศึกษา</th>
+                                        <th class="border border-gray-300 p-2">คะแนนกลางภาค</th>
+                                        <th class="border border-gray-300 p-2">ผลสอบ</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="exampleData">
+                                    <tr><td class="border border-gray-300 p-2">2</td><td class="border border-gray-300 p-2">45</td><td class="border border-gray-300 p-2">❌ ไม่ผ่าน</td></tr>
+                                    <tr><td class="border border-gray-300 p-2">4</td><td class="border border-gray-300 p-2">55</td><td class="border border-gray-300 p-2">❌ ไม่ผ่าน</td></tr>
+                                    <tr><td class="border border-gray-300 p-2">6</td><td class="border border-gray-300 p-2">65</td><td class="border border-gray-300 p-2">✅ ผ่าน</td></tr>
+                                    <tr><td class="border border-gray-300 p-2">8</td><td class="border border-gray-300 p-2">75</td><td class="border border-gray-300 p-2">✅ ผ่าน</td></tr>
+                                    <tr><td class="border border-gray-300 p-2">10</td><td class="border border-gray-300 p-2">85</td><td class="border border-gray-300 p-2">✅ ผ่าน</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-xl font-semibold text-gray-700 mb-4">🧮 การคำนวณ</h3>
+                        <div class="space-y-4">
+                            <div class="bg-blue-50 p-4 rounded-lg">
+                                <h4 class="font-semibold text-blue-700">สมการที่ได้:</h4>
+                                <p class="font-mono text-lg">z = -8.5 + 0.3×(ชั่วโมง) + 0.1×(คะแนน)</p>
+                            </div>
+                            
+                            <div class="bg-green-50 p-4 rounded-lg">
+                                <h4 class="font-semibold text-green-700">ตัวอย่างการทำนาย:</h4>
+                                <p>นักเรียนศึกษา 7 ชั่วโมง และได้คะแนนกลางภาค 70</p>
+                                <p class="font-mono">z = -8.5 + 0.3×7 + 0.1×70 = 0.6</p>
+                                <p class="font-mono">P = 1/(1+e^(-0.6)) = 0.646</p>
+                                <p class="font-semibold text-green-600">ผลลัพธ์: มีโอกาส 64.6% ที่จะสอบผ่าน ✅</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-8">
+                    <h3 class="text-xl font-semibold text-gray-700 mb-4">🎯 ทดลองทำนาย</h3>
+                    <div class="interactive-demo">
+                        <div class="grid md:grid-cols-3 gap-4 mb-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">ชั่วโมงศึกษา:</label>
+                                <input type="range" id="studyHours" min="0" max="15" value="5" class="w-full">
+                                <span id="studyHoursValue" class="text-sm text-gray-600">5 ชั่วโมง</span>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">คะแนนกลางภาค:</label>
+                                <input type="range" id="midtermScore" min="0" max="100" value="60" class="w-full">
+                                <span id="midtermScoreValue" class="text-sm text-gray-600">60 คะแนน</span>
+                            </div>
+                            <div class="flex items-end">
+                                <button id="predictBtn" class="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition w-full">
+                                    ทำนาย
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div id="predictionResult" class="bg-gray-50 p-4 rounded-lg text-center hidden">
+                            <div class="text-2xl font-bold mb-2" id="probabilityText"></div>
+                            <div class="text-lg" id="resultText"></div>
+                            <div class="text-sm text-gray-600 mt-2" id="calculationText"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Metrics Section -->
+        <section id="metrics" class="section-content hidden">
+            <div class="section-card bg-white rounded-xl shadow-lg p-8 mb-8">
+                <h2 class="text-3xl font-bold text-gray-800 mb-6">📊 การวัดประสิทธิภาพ</h2>
+                
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                    <div class="metric-card">
+                        <div class="text-2xl font-bold text-blue-600" id="accuracyValue">85%</div>
+                        <div class="text-sm font-semibold text-gray-700">Accuracy</div>
+                        <div class="text-xs text-gray-500">ความแม่นยำโดยรวม</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="text-2xl font-bold text-green-600" id="precisionValue">82%</div>
+                        <div class="text-sm font-semibold text-gray-700">Precision</div>
+                        <div class="text-xs text-gray-500">ความแม่นยำของการทำนายบวก</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="text-2xl font-bold text-orange-600" id="recallValue">88%</div>
+                        <div class="text-sm font-semibold text-gray-700">Recall</div>
+                        <div class="text-xs text-gray-500">ความครอบคลุมของการทำนายบวก</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="text-2xl font-bold text-purple-600" id="f1Value">85%</div>
+                        <div class="text-sm font-semibold text-gray-700">F1-Score</div>
+                        <div class="text-xs text-gray-500">ค่าเฉลี่ยของ Precision และ Recall</div>
+                    </div>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="text-xl font-semibold text-gray-700 mb-4">🎯 Confusion Matrix</h3>
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <table class="w-full text-center">
+                                <thead>
+                                    <tr>
+                                        <th class="p-2"></th>
+                                        <th class="p-2 bg-blue-100">ทำนาย: ไม่ผ่าน</th>
+                                        <th class="p-2 bg-blue-100">ทำนาย: ผ่าน</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="p-2 bg-green-100 font-semibold">จริง: ไม่ผ่าน</td>
+                                        <td class="p-2 bg-green-200 text-2xl font-bold" id="tn">45</td>
+                                        <td class="p-2 bg-red-200 text-2xl font-bold" id="fp">8</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-2 bg-green-100 font-semibold">จริง: ผ่าน</td>
+                                        <td class="p-2 bg-red-200 text-2xl font-bold" id="fn">7</td>
+                                        <td class="p-2 bg-green-200 text-2xl font-bold" id="tp">40</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <div class="mt-4 space-y-2 text-sm">
+                            <p><span class="font-semibold">True Positive (TP):</span> ทำนายผ่าน และจริงๆ ก็ผ่าน</p>
+                            <p><span class="font-semibold">True Negative (TN):</span> ทำนายไม่ผ่าน และจริงๆ ก็ไม่ผ่าน</p>
+                            <p><span class="font-semibold">False Positive (FP):</span> ทำนายผ่าน แต่จริงๆ ไม่ผ่าน</p>
+                            <p><span class="font-semibold">False Negative (FN):</span> ทำนายไม่ผ่าน แต่จริงๆ ผ่าน</p>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-xl font-semibold text-gray-700 mb-4">📈 ROC Curve</h3>
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <canvas id="rocChart" width="300" height="300"></canvas>
+                        </div>
+                        <div class="mt-4">
+                            <div class="bg-purple-50 p-3 rounded">
+                                <p class="font-semibold text-purple-700">AUC (Area Under Curve): <span id="aucValue">0.89</span></p>
+                                <p class="text-sm text-gray-600">ค่าใกล้ 1 = โมเดลดี, ค่าใกล้ 0.5 = โมเดลไม่ดี</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-8">
+                    <h3 class="text-xl font-semibold text-gray-700 mb-4">🧮 สูตรการคำนวณ</h3>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div class="bg-blue-50 p-4 rounded-lg">
+                            <h4 class="font-semibold text-blue-700 mb-2">เมตริกพื้นฐาน:</h4>
+                            <div class="space-y-1 text-sm font-mono">
+                                <p>Accuracy = (TP + TN) / (TP + TN + FP + FN)</p>
+                                <p>Precision = TP / (TP + FP)</p>
+                                <p>Recall = TP / (TP + FN)</p>
+                                <p>F1-Score = 2 × (Precision × Recall) / (Precision + Recall)</p>
+                            </div>
+                        </div>
+                        <div class="bg-green-50 p-4 rounded-lg">
+                            <h4 class="font-semibold text-green-700 mb-2">เมตริกขั้นสูง:</h4>
+                            <div class="space-y-1 text-sm font-mono">
+                                <p>Specificity = TN / (TN + FP)</p>
+                                <p>Sensitivity = TP / (TP + FN)</p>
+                                <p>Log-Loss = -Σ[y×log(p) + (1-y)×log(1-p)]</p>
+                                <p>AUC = ∫ TPR d(FPR)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Interactive Demo Section -->
+        <section id="demo" class="section-content hidden">
+            <div class="section-card bg-white rounded-xl shadow-lg p-8 mb-8">
+                <h2 class="text-3xl font-bold text-gray-800 mb-6">🎮 Demo แบบโต้ตอบ</h2>
+                
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="text-xl font-semibold text-gray-700 mb-4">🎛️ ปรับค่าพารามิเตอร์</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">β₀ (Intercept):</label>
+                                <input type="range" id="beta0" min="-10" max="10" step="0.1" value="-2" class="w-full">
+                                <span id="beta0Value" class="text-sm text-gray-600">-2.0</span>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">β₁ (Coefficient 1):</label>
+                                <input type="range" id="beta1" min="-5" max="5" step="0.1" value="0.5" class="w-full">
+                                <span id="beta1Value" class="text-sm text-gray-600">0.5</span>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">β₂ (Coefficient 2):</label>
+                                <input type="range" id="beta2" min="-5" max="5" step="0.1" value="0.3" class="w-full">
+                                <span id="beta2Value" class="text-sm text-gray-600">0.3</span>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-6 bg-gray-50 p-4 rounded-lg">
+                            <h4 class="font-semibold text-gray-700 mb-2">สมการปัจจุบัน:</h4>
+                            <p class="font-mono text-lg" id="currentEquation">z = -2.0 + 0.5×x₁ + 0.3×x₂</p>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-xl font-semibold text-gray-700 mb-4">📊 กราฟแสดงผล</h3>
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <canvas id="interactiveChart" width="400" height="300"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-8">
+                    <h3 class="text-xl font-semibold text-gray-700 mb-4">🧪 ทดสอบการทำนาย</h3>
+                    <div class="grid md:grid-cols-4 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">x₁:</label>
+                            <input type="number" id="testX1" value="5" class="w-full p-2 border rounded">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">x₂:</label>
+                            <input type="number" id="testX2" value="3" class="w-full p-2 border rounded">
+                        </div>
+                        <div class="flex items-end">
+                            <button id="testPredict" class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition w-full">
+                                คำนวณ
+                            </button>
+                        </div>
+                        <div class="flex items-center">
+                            <div id="testResult" class="text-center w-full">
+                                <div class="text-lg font-bold text-gray-700">ผลลัพธ์</div>
+                                <div class="text-sm text-gray-500">กดคำนวณ</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Navigation functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const navBtns = document.querySelectorAll('.nav-btn');
+            const sections = document.querySelectorAll('.section-content');
+            
+            navBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const targetSection = this.getAttribute('data-section');
+                    
+                    // Update nav buttons
+                    navBtns.forEach(b => {
+                        b.classList.remove('bg-blue-600', 'text-white');
+                        b.classList.add('bg-gray-200', 'text-gray-700');
+                    });
+                    this.classList.remove('bg-gray-200', 'text-gray-700');
+                    this.classList.add('bg-blue-600', 'text-white');
+                    
+                    // Show target section
+                    sections.forEach(section => {
+                        section.classList.add('hidden');
+                    });
+                    document.getElementById(targetSection).classList.remove('hidden');
+                    
+                    // Initialize charts if needed
+                    if (targetSection === 'concept') {
+                        initSigmoidChart();
+                    } else if (targetSection === 'metrics') {
+                        initROCChart();
+                    } else if (targetSection === 'demo') {
+                        initInteractiveChart();
+                    }
+                });
+            });
+            
+            // Initialize first section
+            initSigmoidChart();
+            
+            // Step animation
+            document.getElementById('animateSteps').addEventListener('click', function() {
+                const steps = document.querySelectorAll('.step-item');
+                steps.forEach(step => step.classList.remove('active'));
+                
+                steps.forEach((step, index) => {
+                    setTimeout(() => {
+                        step.classList.add('active');
+                    }, index * 1000);
+                });
+            });
+            
+            // Example prediction
+            const studyHours = document.getElementById('studyHours');
+            const midtermScore = document.getElementById('midtermScore');
+            const predictBtn = document.getElementById('predictBtn');
+            
+            studyHours.addEventListener('input', function() {
+                document.getElementById('studyHoursValue').textContent = this.value + ' ชั่วโมง';
+            });
+            
+            midtermScore.addEventListener('input', function() {
+                document.getElementById('midtermScoreValue').textContent = this.value + ' คะแนน';
+            });
+            
+            predictBtn.addEventListener('click', function() {
+                const hours = parseFloat(studyHours.value);
+                const score = parseFloat(midtermScore.value);
+                
+                // Using example coefficients: z = -8.5 + 0.3*hours + 0.1*score
+                const z = -8.5 + 0.3 * hours + 0.1 * score;
+                const probability = 1 / (1 + Math.exp(-z));
+                
+                const resultDiv = document.getElementById('predictionResult');
+                const probText = document.getElementById('probabilityText');
+                const resultText = document.getElementById('resultText');
+                const calcText = document.getElementById('calculationText');
+                
+                probText.textContent = `ความน่าจะเป็น: ${(probability * 100).toFixed(1)}%`;
+                resultText.textContent = probability >= 0.5 ? '✅ คาดว่าจะสอบผ่าน' : '❌ คาดว่าจะสอบไม่ผ่าน';
+                calcText.textContent = `z = -8.5 + 0.3×${hours} + 0.1×${score} = ${z.toFixed(2)}`;
+                
+                resultDiv.classList.remove('hidden');
+            });
+            
+            // Interactive demo
+            const beta0 = document.getElementById('beta0');
+            const beta1 = document.getElementById('beta1');
+            const beta2 = document.getElementById('beta2');
+            
+            [beta0, beta1, beta2].forEach(slider => {
+                slider.addEventListener('input', function() {
+                    document.getElementById(this.id + 'Value').textContent = parseFloat(this.value).toFixed(1);
+                    updateEquation();
+                    updateInteractiveChart();
+                });
+            });
+            
+            function updateEquation() {
+                const b0 = parseFloat(beta0.value);
+                const b1 = parseFloat(beta1.value);
+                const b2 = parseFloat(beta2.value);
+                
+                document.getElementById('currentEquation').textContent = 
+                    `z = ${b0.toFixed(1)} + ${b1.toFixed(1)}×x₁ + ${b2.toFixed(1)}×x₂`;
+            }
+            
+            document.getElementById('testPredict').addEventListener('click', function() {
+                const x1 = parseFloat(document.getElementById('testX1').value);
+                const x2 = parseFloat(document.getElementById('testX2').value);
+                const b0 = parseFloat(beta0.value);
+                const b1 = parseFloat(beta1.value);
+                const b2 = parseFloat(beta2.value);
+                
+                const z = b0 + b1 * x1 + b2 * x2;
+                const prob = 1 / (1 + Math.exp(-z));
+                
+                document.getElementById('testResult').innerHTML = `
+                    <div class="text-lg font-bold ${prob >= 0.5 ? 'text-green-600' : 'text-red-600'}">
+                        ${(prob * 100).toFixed(1)}%
+                    </div>
+                    <div class="text-sm text-gray-500">
+                        ${prob >= 0.5 ? 'Class 1' : 'Class 0'}
+                    </div>
+                `;
+            });
+        });
+        
+        // Chart functions
+        function initSigmoidChart() {
+            const ctx = document.getElementById('sigmoidChart').getContext('2d');
+            const data = [];
+            for (let x = -6; x <= 6; x += 0.1) {
+                const y = 1 / (1 + Math.exp(-x));
+                data.push({x: x, y: y});
+            }
+            
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    datasets: [{
+                        label: 'Sigmoid Function',
+                        data: data,
+                        borderColor: 'rgb(59, 130, 246)',
+                        backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'z'
+                            }
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'σ(z)'
+                            },
+                            min: 0,
+                            max: 1
+                        }
+                    },
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Sigmoid Function: σ(z) = 1 / (1 + e^(-z))'
+                        }
+                    }
+                }
+            });
+        }
+        
+        function initROCChart() {
+            const ctx = document.getElementById('rocChart').getContext('2d');
+            
+            // Sample ROC curve data
+            const rocData = [
+                {x: 0, y: 0},
+                {x: 0.1, y: 0.3},
+                {x: 0.2, y: 0.6},
+                {x: 0.3, y: 0.8},
+                {x: 0.5, y: 0.9},
+                {x: 1, y: 1}
+            ];
+            
+            const randomData = [
+                {x: 0, y: 0},
+                {x: 1, y: 1}
+            ];
+            
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    datasets: [{
+                        label: 'ROC Curve',
+                        data: rocData,
+                        borderColor: 'rgb(147, 51, 234)',
+                        backgroundColor: 'rgba(147, 51, 234, 0.1)',
+                        tension: 0.4
+                    }, {
+                        label: 'Random Classifier',
+                        data: randomData,
+                        borderColor: 'rgb(156, 163, 175)',
+                        borderDash: [5, 5]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'False Positive Rate'
+                            },
+                            min: 0,
+                            max: 1
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'True Positive Rate'
+                            },
+                            min: 0,
+                            max: 1
+                        }
+                    },
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'ROC Curve'
+                        }
+                    }
+                }
+            });
+        }
+        
+        let interactiveChart;
+        
+        function initInteractiveChart() {
+            const ctx = document.getElementById('interactiveChart').getContext('2d');
+            updateInteractiveChart();
+        }
+        
+        function updateInteractiveChart() {
+            const ctx = document.getElementById('interactiveChart').getContext('2d');
+            
+            if (interactiveChart) {
+                interactiveChart.destroy();
+            }
+            
+            const b0 = parseFloat(document.getElementById('beta0').value);
+            const b1 = parseFloat(document.getElementById('beta1').value);
+            
+            const data = [];
+            for (let x = -5; x <= 5; x += 0.1) {
+                const z = b0 + b1 * x;
+                const y = 1 / (1 + Math.exp(-z));
+                data.push({x: x, y: y});
+            }
+            
+            interactiveChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    datasets: [{
+                        label: 'Logistic Function',
+                        data: data,
+                        borderColor: 'rgb(99, 102, 241)',
+                        backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'x'
+                            }
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'P(y=1)'
+                            },
+                            min: 0,
+                            max: 1
+                        }
+                    },
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Interactive Logistic Function'
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'96028c3f17805833',t:'MTc1MjY3OTkwMC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
