@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Regression vs Classification ในการเรียนรู้ของเครื่อง</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap');
+        body {
+            font-family: 'Sarabun', sans-serif;
+            background-color: #f8fafc;
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 100%);
+        }
+        .gradient-bg-2 {
+            background: linear-gradient(135deg, #f43f5e 0%, #ec4899 100%);
+        }
+        .gradient-bg-3 {
+            background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%);
+        }
+    </style>
+</head>
+<body>
+    <header class="gradient-bg text-white py-8 shadow-lg">
+        <div class="container mx-auto px-4">
+            <h1 class="text-3xl md:text-4xl font-bold text-center">Regression vs Classification</h1>
+            <p class="text-center text-xl mt-2">ความแตกต่างและอัลกอริทึมที่ใช้ในการเรียนรู้ของเครื่อง</p>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-8">
+        <!-- Introduction Section -->
+        <section class="mb-12">
+            <div class="bg-white rounded-xl shadow-md p-6 mb-8">
+                <h2 class="text-2xl font-bold mb-4 text-gray-800">Supervised Learning: Regression vs Classification</h2>
+                <p class="text-gray-700 mb-6">Regression และ Classification เป็นงานหลักสองประเภทในการเรียนรู้แบบมีผู้สอน (Supervised Learning) ซึ่งมีความแตกต่างกันในเป้าหมายและผลลัพธ์ที่ต้องการ</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-blue-50 rounded-lg p-5 border-l-4 border-blue-500">
+                        <h3 class="text-xl font-semibold text-blue-700 mb-2">Regression (การถดถอย)</h3>
+                        <p class="text-gray-700">ทำนายค่าต่อเนื่อง (Continuous Value) เช่น ราคา, อุณหภูมิ, น้ำหนัก</p>
+                        <div class="mt-4 flex justify-center">
+                            <svg width="200" height="120" viewBox="0 0 200 120">
+                                <line x1="20" y1="100" x2="180" y2="100" stroke="#94a3b8" stroke-width="2" />
+                                <line x1="20" y1="100" x2="20" y2="20" stroke="#94a3b8" stroke-width="2" />
+                                <line x1="20" y1="100" x2="180" y2="30" stroke="#3b82f6" stroke-width="3" />
+                                <circle cx="40" cy="90" r="4" fill="#ef4444" />
+                                <circle cx="70" cy="75" r="4" fill="#ef4444" />
+                                <circle cx="100" cy="65" r="4" fill="#ef4444" />
+                                <circle cx="130" cy="50" r="4" fill="#ef4444" />
+                                <circle cx="160" cy="35" r="4" fill="#ef4444" />
+                                <text x="100" y="115" text-anchor="middle" font-size="12" fill="#64748b">ตัวแปรอิสระ (X)</text>
+                                <text x="10" y="60" text-anchor="middle" font-size="12" fill="#64748b" transform="rotate(-90, 10, 60)">ตัวแปรตาม (Y)</text>
+                            </svg>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-pink-50 rounded-lg p-5 border-l-4 border-pink-500">
+                        <h3 class="text-xl font-semibold text-pink-700 mb-2">Classification (การจำแนกประเภท)</h3>
+                        <p class="text-gray-700">ทำนายคลาสหรือหมวดหมู่ (Discrete Class) เช่น สแปม/ไม่สแปม, ประเภทดอกไม้, การวินิจฉัยโรค</p>
+                        <div class="mt-4 flex justify-center">
+                            <svg width="200" height="120" viewBox="0 0 200 120">
+                                <line x1="20" y1="100" x2="180" y2="100" stroke="#94a3b8" stroke-width="2" />
+                                <line x1="20" y1="100" x2="20" y2="20" stroke="#94a3b8" stroke-width="2" />
+                                <path d="M20,60 Q100,20 180,60" stroke="#ec4899" stroke-width="3" fill="none" />
+                                <circle cx="40" cy="90" r="4" fill="#3b82f6" />
+                                <circle cx="60" cy="30" r="4" fill="#ef4444" />
+                                <circle cx="80" cy="30" r="4" fill="#ef4444" />
+                                <circle cx="100" cy="30" r="4" fill="#ef4444" />
+                                <circle cx="120" cy="30" r="4" fill="#ef4444" />
+                                <circle cx="140" cy="90" r="4" fill="#3b82f6" />
+                                <circle cx="160" cy="90" r="4" fill="#3b82f6" />
+                                <text x="100" y="115" text-anchor="middle" font-size="12" fill="#64748b">ตัวแปรอิสระ (X)</text>
+                                <text x="10" y="60" text-anchor="middle" font-size="12" fill="#64748b" transform="rotate(-90, 10, 60)">คลาส</text>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Comparison Table Section -->
+        <section class="mb-12">
+            <div class="bg-white rounded-xl shadow-md p-6">
+                <h2 class="text-2xl font-bold mb-4 text-gray-800">เปรียบเทียบ Regression และ Classification</h2>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full bg-white border border-gray-200">
+                        <thead>
+                            <tr class="bg-gray-100">
+                                <th class="py-3 px-4 border-b text-left">คุณลักษณะ</th>
+                                <th class="py-3 px-4 border-b text-left">Regression</th>
+                                <th class="py-3 px-4 border-b text-left">Classification</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="py-3 px-4 border-b font-medium">ผลลัพธ์</td>
+                                <td class="py-3 px-4 border-b">ค่าต่อเนื่อง (Continuous Value)</td>
+                                <td class="py-3 px-4 border-b">คลาสหรือหมวดหมู่ (Discrete Class)</td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 px-4 border-b font-medium">ตัวอย่างผลลัพธ์</td>
+                                <td class="py-3 px-4 border-b">ราคาบ้าน: 3.5 ล้านบาท, อุณหภูมิ: 28.5°C</td>
+                                <td class="py-3 px-4 border-b">ประเภทอีเมล: สแปม/ไม่สแปม, ประเภทดอกไม้: กุหลาบ/ทิวลิป/ลิลลี่</td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 px-4 border-b font-medium">การวัดประสิทธิภาพ</td>
+                                <td class="py-3 px-4 border-b">MSE, RMSE, MAE, R-squared</td>
+                                <td class="py-3 px-4 border-b">Accuracy, Precision, Recall, F1-score, ROC-AUC</td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 px-4 border-b font-medium">ฟังก์ชันการสูญเสีย (Loss Function)</td>
+                                <td class="py-3 px-4 border-b">Mean Squared Error, Mean Absolute Error</td>
+                                <td class="py-3 px-4 border-b">Cross-Entropy Loss, Hinge Loss</td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 px-4 border-b font-medium">ตัวอย่างการใช้งาน</td>
+                                <td class="py-3 px-4 border-b">ทำนายราคาบ้าน, ทำนายยอดขาย, ทำนายอุณหภูมิ</td>
+                                <td class="py-3 px-4 border-b">จำแนกอีเมลสแปม, วินิจฉัยโรค, จำแนกรูปภาพ</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Algorithms for Regression Section -->
+        <section class="mb-12">
+            <div class="gradient-bg rounded-xl shadow-md overflow-hidden">
+                <div class="py-4 px-6">
+                    <h2 class="text-2xl font-bold text-white">อัลกอริทึมสำหรับ Regression</h2>
+                </div>
+                <div class="bg-white p-6">
+                    <p class="text-gray-700 mb-6">อัลกอริทึมที่นิยมใช้สำหรับงาน Regression เพื่อทำนายค่าต่อเนื่อง</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <div class="bg-blue-50 rounded-lg shadow-md p-5 transition-all duration-300 card-hover">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mr-4">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                                    </svg>
+                                </div>
+                                <h3 class="text-xl font-semibold text-gray-800">Linear Regression</h3>
+                            </div>
+                            <p class="text-gray-700 mb-3">หาความสัมพันธ์เชิงเส้นระหว่างตัวแปรอิสระและตัวแปรตาม</p>
+                            <div class="bg-gray-100 p-3 rounded-lg">
+                                <p class="text-gray-700"><strong>สมการ:</strong> Y = β₀ + β₁X₁ + β₂X₂ + ... + βₙXₙ + ε</p>
+                            </div>
+                        </div>
+
+                        <div class="bg-blue-50 rounded-lg shadow-md p-5 transition-all duration-300 card-hover">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mr-4">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                                    </svg>
+                                </div>
+                                <h3 class="text-xl font-semibold text-gray-800">Polynomial Regression</h3>
+                            </div>
+                            <p class="text-gray-700 mb-3">ขยายจาก Linear Regression โดยใช้ความสัมพันธ์แบบพหุนาม</p>
+                            <div class="bg-gray-100 p-3 rounded-lg">
+                                <p class="text-gray-700"><strong>สมการ:</strong> Y = β₀ + β₁X + β₂X² + β₃X³ + ... + ε</p>
+                            </div>
+                        </div>
+
+                        <div class="bg-blue-50 rounded-lg shadow-md p-5 transition-all duration-300 card-hover">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mr-4">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4" />
+                                    </svg>
+                                </div>
+                                <h3 class="text-xl font-semibold text-gray-800">Ridge Regression</h3>
+                            </div>
+                            <p class="text-gray-700 mb-3">Linear Regression ที่มีการเพิ่ม L2 regularization เพื่อลดปัญหา Overfitting</p>
+                            <div class="bg-gray-100 p-3 rounded-lg">
+                                <p class="text-gray-700"><strong>สมการ:</strong> min(||Y - Xβ||² + α||β||²)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Algorithms for Classification Section -->
+        <section class="mb-12">
+            <div class="gradient-bg-2 rounded-xl shadow-md overflow-hidden">
+                <div class="py-4 px-6">
+                    <h2 class="text-2xl font-bold text-white">อัลกอริทึมสำหรับ Classification</h2>
+                </div>
+                <div class="bg-white p-6">
+                    <p class="text-gray-700 mb-6">อัลกอริทึมที่นิยมใช้สำหรับงาน Classification เพื่อทำนายคลาสหรือหมวดหมู่</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <div class="bg-pink-50 rounded-lg shadow-md p-5 transition-all duration-300 card-hover">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 bg-pink-100 rounded-full flex items-center justify-center mr-4">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-pink-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
+                                    </svg>
+                                </div>
+                                <h3 class="text-xl font-semibold text-gray-800">Logistic Regression</h3>
+                            </div>
+                            <p class="text-gray-700 mb-3">ใช้ฟังก์ชัน Sigmoid เพื่อทำนายความน่าจะเป็นที่ข้อมูลจะอยู่ในคลาสใดคลาสหนึ่ง</p>
+                            <div class="bg-gray-100 p-3 rounded-lg">
+                                <p class="text-gray-700"><strong>สมการ:</strong> P(Y=1) = 1 / (1 + e^(-z))</p>
+                            </div>
+                        </div>
+
+                        <div class="bg-pink-50 rounded-lg shadow-md p-5 transition-all duration-300 card-hover">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 bg-pink-100 rounded-full flex items-center justify-center mr-4">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-pink-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                                    </svg>
+                                </div>
+                                <h3 class="text-xl font-semibold text-gray-800">Decision Trees</h3>
+                            </div>
+                            <p class="text-gray-700 mb-3">สร้างโมเดลการตัดสินใจในรูปแบบของต้นไม้ โดยแต่ละโหนดแทนการตัดสินใจบนคุณลักษณะหนึ่งๆ</p>
+                            <div class="bg-gray-100 p-3 rounded-lg">
+                                <p class="text-gray-700"><strong>เกณฑ์การแบ่ง:</strong> Gini Impurity, Information Gain</p>
+                            </div>
+                        </div>
+
+                        <div class="bg-pink-50 rounded-lg shadow-md p-5 transition-all duration-300 card-hover">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 bg-pink-100 rounded-full flex items-center justify-center mr-4">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-pink-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4" />
+                                    </svg>
+                                </div>
+                                <h3 class="text-xl font-semibold text-gray-800">Support Vector Machines</h3>
+                            </div>
+                            <p class="text-gray-700 mb-3">หาเส้นแบ่ง (Hyperplane) ที่ดีที่สุดเพื่อแยกข้อมูลออกเป็นคลาสต่างๆ</p>
+                            <div class="bg-gray-100 p-3 rounded-lg">
+                                <p class="text-gray-700"><strong>เทคนิค:</strong> Linear, Polynomial, RBF Kernel</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Algorithms for Both Section -->
+        <section class="mb-12">
+            <div class="gradient-bg-3 rounded-xl shadow-md overflow-hidden">
+                <div class="py-4 px-6">
+                    <h2 class="text-2xl font-bold text-white">อัลกอริทึมที่สามารถทำได้ทั้ง Regression และ Classification</h2>
+                </div>
+                <div class="bg-white p-6">
+                    <p class="text-gray-700 mb-6">อัลกอริทึมบางตัวมีความยืดหยุ่นและสามารถปรับใช้ได้ทั้งงาน Regression และ Classification</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-purple-50 rounded-lg shadow-md p-5 transition-all duration-300 card-hover">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mr-4">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                                    </svg>
+                                </div>
+                                <h3 class="text-xl font-semibold text-gray-800">Decision Trees</h3>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-3">
+                                <div class="bg-blue-100 p-3 rounded-lg">
+                                    <p class="text-gray-700 font-medium">Regression</p>
+                                    <p class="text-gray-700 text-sm">ใช้ค่าเฉลี่ยของข้อมูลในโหนดใบ (Leaf Node) เป็นค่าทำนาย</p>
+                                </div>
+                                <div class="bg-pink-100 p-3 rounded-lg">
+                                    <p class="text-gray-700 font-medium">Classification</p>
+                                    <p class="text-gray-700 text-sm">ใช้คลาสที่พบมากที่สุดในโหนดใบเป็นคลาสที่ทำนาย</p>
+                                </div>
+                            </div>
+                            <div class="bg-gray-100 p-3 rounded-lg">
+                                <p class="text-gray-700"><strong>ไลบรารี:</strong> sklearn.tree.DecisionTreeRegressor, sklearn.tree.DecisionTreeClassifier</p>
+                            </div>
+                        </div>
+
+                        <div class="bg-purple-50 rounded-lg shadow-md p-5 transition-all duration-300 card-hover">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mr-4">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                                    </svg>
+                                </div>
+                                <h3 class="text-xl font-semibold text-gray-800">Random Forest</h3>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-3">
+                                <div class="bg-blue-100 p-3 rounded-lg">
+                                    <p class="text-gray-700 font-medium">Regression</p>
+                                    <p class="text-gray-700 text-sm">ใช้ค่าเฉลี่ยของผลลัพธ์จากต้นไม้ตัดสินใจหลายๆ ต้น</p>
+                                </div>
+                                <div class="bg-pink-100 p-3 rounded-lg">
+                                    <p class="text-gray-700 font-medium">Classification</p>
+                                    <p class="text-gray-700 text-sm">ใช้การโหวตเสียงข้างมากจากต้นไม้ตัดสินใจหลายๆ ต้น</p>
+                                </div>
+                            </div>
+                            <div class="bg-gray-100 p-3 rounded-lg">
+                                <p class="text-gray-700"><strong>ไลบรารี:</strong> sklearn.ensemble.RandomForestRegressor, sklearn.ensemble.RandomForestClassifier</p>
+                            </div>
+                        </div>
+
+                        <div class="bg-purple-50 rounded-lg shadow-md p-5 transition-all duration-300 card-hover">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mr-4">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                                    </svg>
+                                </div>
+                                <h3 class="text-xl font-semibold text-gray-800">Neural Networks</h3>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-3">
+                                <div class="bg-blue-100 p-3 rounded-lg">
+                                    <p class="text-gray-700 font-medium">Regression</p>
+                                    <p class="text-gray-700 text-sm">ใช้ฟังก์ชันกระตุ้น (Activation Function) แบบเชิงเส้นที่เอาต์พุต</p>
+                                </div>
+                                <div class="bg-pink-100 p-3 rounded-lg">
+                                    <p class="text-gray-700 font-medium">Classification</p>
+                                    <p class="text-gray-700 text-sm">ใช้ฟังก์ชันกระตุ้นแบบ Sigmoid หรือ Softmax ที่เอาต์พุต</p>
+                                </div>
+                            </div>
+                            <div class="bg-gray-100 p-3 rounded-lg">
+                                <p class="text-gray-700"><strong>ไลบรารี:</strong> sklearn.neural_network.MLPRegressor, sklearn.neural_network.MLPClassifier</p>
+                            </div>
+                        </div>
+
+                        <div class="bg-purple-50 rounded-lg shadow-md p-5 transition-all duration-300 card-hover">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mr-4">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4" />
+                                    </svg>
+                                </div>
+                                <h3 class="text-xl font-semibold text-gray-800">Support Vector Machines</h3>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-3">
+                                <div class="bg-blue-100 p-3 rounded-lg">
+                                    <p class="text-gray-700 font-medium">Regression (SVR)</p>
+                                    <p class="text-gray-700 text-sm">หาฟังก์ชันที่มีค่าความคลาดเคลื่อนไม่เกิน ε จากค่าจริง</p>
+                                </div>
+                                <div class="bg-pink-100 p-3 rounded-lg">
+                                    <p class="text-gray-700 font-medium">Classification (SVC)</p>
+                                    <p class="text-gray-700 text-sm">หาเส้นแบ่งที่ดีที่สุดเพื่อแยกข้อมูลออกเป็นคลาสต่างๆ</p>
+                                </div>
+                            </div>
+                            <div class="bg-gray-100 p-3 rounded-lg">
+                                <p class="text-gray-700"><strong>ไลบรารี:</strong> sklearn.svm.SVR, sklearn.svm.SVC</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Interactive Example Section -->
+        <section class="mb-12">
+            <div class="bg-white rounded-xl shadow-md p-6">
+                <h2 class="text-2xl font-bold mb-4 text-gray-800">ตัวอย่างการเลือกใช้อัลกอริทึม</h2>
+                <p class="text-gray-700 mb-6">เลือกประเภทของปัญหาและดูอัลกอริทึมที่เหมาะสม</p>
+                
+                <div class="flex flex-wrap gap-4 mb-6">
+                    <button id="btn-regression" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-all">Regression</button>
+                    <button id="btn-classification" class="px-4 py-2 bg-pink-500 text-white rounded-md hover:bg-pink-600 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-opacity-50 transition-all">Classification</button>
+                    <button id="btn-both" class="px-4 py-2 bg-purple-500 text-white rounded-md hover:bg-purple-600 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50 transition-all">ทั้งสองแบบ</button>
+                </div>
+                
+                <div id="problem-container" class="mb-6">
+                    <div class="bg-gray-100 p-4 rounded-lg">
+                        <p class="text-gray-700 text-center">เลือกประเภทของปัญหาด้านบนเพื่อดูตัวอย่าง</p>
+                    </div>
+                </div>
+                
+                <div id="algorithm-container" class="hidden">
+                    <h3 class="text-xl font-semibold mb-3 text-gray-800">อัลกอริทึมที่แนะนำ</h3>
+                    <div id="algorithm-list" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <!-- จะถูกเติมด้วย JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Conclusion Section -->
+        <section class="mb-12">
+            <div class="bg-white rounded-xl shadow-md p-6">
+                <h2 class="text-2xl font-bold mb-4 text-gray-800">สรุป</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-gray-100 p-5 rounded-lg">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-3">เมื่อใดควรใช้ Regression</h3>
+                        <ul class="list-disc pl-5 space-y-2 text-gray-700">
+                            <li>เมื่อต้องการทำนายค่าต่อเนื่อง เช่น ราคา, อุณหภูมิ, น้ำหนัก</li>
+                            <li>เมื่อต้องการหาความสัมพันธ์ระหว่างตัวแปรอิสระและตัวแปรตาม</li>
+                            <li>เมื่อต้องการวิเคราะห์แนวโน้มของข้อมูล</li>
+                            <li>ตัวอย่างการใช้งาน: ทำนายราคาบ้าน, ทำนายยอดขาย, ทำนายอุณหภูมิ</li>
+                        </ul>
+                    </div>
+                    <div class="bg-gray-100 p-5 rounded-lg">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-3">เมื่อใดควรใช้ Classification</h3>
+                        <ul class="list-disc pl-5 space-y-2 text-gray-700">
+                            <li>เมื่อต้องการจำแนกข้อมูลออกเป็นคลาสหรือหมวดหมู่</li>
+                            <li>เมื่อผลลัพธ์ที่ต้องการเป็นค่าไม่ต่อเนื่อง (Discrete)</li>
+                            <li>เมื่อต้องการตัดสินใจว่าข้อมูลเป็นประเภทใด</li>
+                            <li>ตัวอย่างการใช้งาน: จำแนกอีเมลสแปม, วินิจฉัยโรค, จำแนกรูปภาพ</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-gray-800 text-white py-6">
+        <div class="container mx-auto px-4 text-center">
+            <p>© 2023 Regression vs Classification ในการเรียนรู้ของเครื่อง</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const btnRegression = document.getElementById('btn-regression');
+            const btnClassification = document.getElementById('btn-classification');
+            const btnBoth = document.getElementById('btn-both');
+            const problemContainer = document.getElementById('problem-container');
+            const algorithmContainer = document.getElementById('algorithm-container');
+            const algorithmList = document.getElementById('algorithm-list');
+            
+            const problems = {
+                regression: [
+                    {
+                        title: "ทำนายราคาบ้าน",
+                        description: "ทำนายราคาบ้านจากข้อมูลเช่น พื้นที่, จำนวนห้องนอน, ทำเลที่ตั้ง",
+                        output: "ราคาบ้าน (เช่น 3.5 ล้านบาท)"
+                    },
+                    {
+                        title: "ทำนายยอดขาย",
+                        description: "ทำนายยอดขายในอนาคตจากข้อมูลยอดขายในอดีต",
+                        output: "ยอดขายรายเดือน (เช่น 250,000 บาท)"
+                    },
+                    {
+                        title: "ทำนายอุณหภูมิ",
+                        description: "ทำนายอุณหภูมิจากข้อมูลสภาพอากาศต่างๆ",
+                        output: "อุณหภูมิ (เช่น 28.5°C)"
+                    }
+                ],
+                classification: [
+                    {
+                        title: "จำแนกอีเมลสแปม",
+                        description: "จำแนกว่าอีเมลเป็นสแปมหรือไม่จากเนื้อหาและหัวข้อ",
+                        output: "สแปม / ไม่สแปม"
+                    },
+                    {
+                        title: "วินิจฉัยโรค",
+                        description: "วินิจฉัยโรคจากอาการและผลตรวจต่างๆ",
+                        output: "ประเภทของโรค (เช่น เบาหวาน, ความดัน)"
+                    },
+                    {
+                        title: "จำแนกรูปภาพ",
+                        description: "จำแนกประเภทของวัตถุในรูปภาพ",
+                        output: "ประเภทของวัตถุ (เช่น แมว, สุนัข, รถยนต์)"
+                    }
+                ],
+                both: [
+                    {
+                        title: "วิเคราะห์ความเสี่ยงสินเชื่อ",
+                        description: "วิเคราะห์ข้อมูลลูกค้าเพื่อประเมินความเสี่ยงในการให้สินเชื่อ",
+                        regression: "คะแนนความเสี่ยง (เช่น 75/100)",
+                        classification: "อนุมัติ / ไม่อนุมัติ"
+                    },
+                    {
+                        title: "วิเคราะห์ข้อมูลสุขภาพ",
+                        description: "วิเคราะห์ข้อมูลสุขภาพของผู้ป่วย",
+                        regression: "ค่าความเสี่ยงของโรค (เช่น 0.85)",
+                        classification: "มีความเสี่ยง / ไม่มีความเสี่ยง"
+                    }
+                ]
+            };
+            
+            const algorithms = {
+                regression: [
+                    { name: "Linear Regression", description: "เหมาะกับข้อมูลที่มีความสัมพันธ์เชิงเส้น" },
+                    { name: "Polynomial Regression", description: "เหมาะกับข้อมูลที่มีความสัมพันธ์แบบไม่เป็นเส้นตรง" },
+                    { name: "Ridge Regression", description: "เหมาะเมื่อมีปัญหา Multicollinearity" },
+                    { name: "Random Forest Regressor", description: "เหมาะกับข้อมูลที่ซับซ้อนและมีความสัมพันธ์แบบไม่เป็นเส้นตรง" }
+                ],
+                classification: [
+                    { name: "Logistic Regression", description: "เหมาะกับการจำแนกประเภทแบบไบนารี (2 คลาส)" },
+                    { name: "Decision Trees", description: "เหมาะกับข้อมูลที่มีเงื่อนไขการตัดสินใจชัดเจน" },
+                    { name: "Support Vector Machines", description: "เหมาะกับข้อมูลที่มีมิติสูงและต้องการเส้นแบ่งที่ชัดเจน" },
+                    { name: "Random Forest Classifier", description: "เหมาะกับข้อมูลที่ซับซ้อนและมีหลายคลาส" }
+                ],
+                both: [
+                    { name: "Decision Trees", description: "สามารถใช้ได้ทั้ง Regression และ Classification โดยปรับวิธีการคำนวณที่โหนดใบ" },
+                    { name: "Random Forest", description: "ใช้ได้ทั้งสองแบบ โดยปรับวิธีการรวมผลลัพธ์จากต้นไม้หลายๆ ต้น" },
+                    { name: "Neural Networks", description: "ปรับใช้ได้ทั้งสองแบบโดยเปลี่ยนฟังก์ชันกระตุ้นที่เอาต์พุต" },
+                    { name: "Support Vector Machines", description: "มีทั้ง SVC สำหรับ Classification และ SVR สำหรับ Regression" }
+                ]
+            };
+            
+            function showProblems(type) {
+                problemContainer.innerHTML = '';
+                algorithmContainer.classList.remove('hidden');
+                algorithmList.innerHTML = '';
+                
+                let html = '';
+                
+                if (type === 'both') {
+                    html = `
+                        <div class="bg-purple-50 p-4 rounded-lg">
+                            <h3 class="text-xl font-semibold mb-3 text-gray-800">ตัวอย่างปัญหาที่สามารถใช้ได้ทั้ง Regression และ Classification</h3>
+                            <div class="space-y-4">
+                    `;
+                    
+                    problems.both.forEach(problem => {
+                        html += `
+                            <div class="bg-white p-4 rounded-lg shadow-sm">
+                                <h4 class="font-semibold text-lg text-gray-800">${problem.title}</h4>
+                                <p class="text-gray-700 mb-2">${problem.description}</p>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-2 mt-3">
+                                    <div class="bg-blue-50 p-2 rounded">
+                                        <span class="font-medium text-blue-700">Regression:</span> ${problem.regression}
+                                    </div>
+                                    <div class="bg-pink-50 p-2 rounded">
+                                        <span class="font-medium text-pink-700">Classification:</span> ${problem.classification}
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    });
+                    
+                    html += `
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    const color = type === 'regression' ? 'blue' : 'pink';
+                    const title = type === 'regression' ? 'Regression (การถดถอย)' : 'Classification (การจำแนกประเภท)';
+                    
+                    html = `
+                        <div class="bg-${color}-50 p-4 rounded-lg">
+                            <h3 class="text-xl font-semibold mb-3 text-gray-800">ตัวอย่างปัญหา ${title}</h3>
+                            <div class="space-y-4">
+                    `;
+                    
+                    problems[type].forEach(problem => {
+                        html += `
+                            <div class="bg-white p-4 rounded-lg shadow-sm">
+                                <h4 class="font-semibold text-lg text-gray-800">${problem.title}</h4>
+                                <p class="text-gray-700 mb-2">${problem.description}</p>
+                                <div class="bg-${color}-50 p-2 rounded mt-2">
+                                    <span class="font-medium text-${color}-700">ผลลัพธ์:</span> ${problem.output}
+                                </div>
+                            </div>
+                        `;
+                    });
+                    
+                    html += `
+                            </div>
+                        </div>
+                    `;
+                }
+                
+                problemContainer.innerHTML = html;
+                
+                // แสดงอัลกอริทึมที่แนะนำ
+                algorithms[type].forEach(algo => {
+                    const algoEl = document.createElement('div');
+                    algoEl.className = `bg-${type === 'regression' ? 'blue' : type === 'classification' ? 'pink' : 'purple'}-50 p-4 rounded-lg`;
+                    algoEl.innerHTML = `
+                        <h4 class="font-semibold text-gray-800">${algo.name}</h4>
+                        <p class="text-gray-700">${algo.description}</p>
+                    `;
+                    algorithmList.appendChild(algoEl);
+                });
+            }
+            
+            btnRegression.addEventListener('click', () => showProblems('regression'));
+            btnClassification.addEventListener('click', () => showProblems('classification'));
+            btnBoth.addEventListener('click', () => showProblems('both'));
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9602818e35c05833',t:'MTc1MjY3OTQ2Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
