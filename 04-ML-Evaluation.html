@@ -49,6 +49,37 @@
     </style>
 </head>
 <body>
+    <script>
+    // ฟังก์ชัน toggle แสดง/ซ่อนรายละเอียด metric
+    document.addEventListener('DOMContentLoaded', function() {
+        // เลือกปุ่มทั้งหมดที่อยู่ใน metric-card
+        const buttons = document.querySelectorAll('.metric-card button');
+        buttons.forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                // หา card ปัจจุบัน
+                const card = btn.closest('.metric-card');
+                // หา id ของ card เช่น mse-card, accuracy-card
+                if (!card || !card.id) return;
+                // id ของรายละเอียด เช่น mse-detail, accuracy-detail
+                const detailId = card.id.replace('-card', '-detail');
+                const detail = document.getElementById(detailId);
+                if (!detail) return;
+                // ซ่อนรายละเอียดอื่นๆ ทั้งหมด
+                document.querySelectorAll('.metric-detail').forEach(d => {
+                    if (d !== detail) d.style.display = 'none';
+                });
+                // toggle แสดง/ซ่อน
+                if (detail.style.display === 'block') {
+                    detail.style.display = 'none';
+                } else {
+                    detail.style.display = 'block';
+                    // scroll ให้เห็นรายละเอียด
+                    detail.scrollIntoView({behavior: 'smooth', block: 'center'});
+                }
+            });
+        });
+    });
+    </script>
     <header class="gradient-bg text-white py-8 shadow-lg">
         <div class="container mx-auto px-4">
             <h1 class="text-3xl md:text-4xl font-bold text-center">การวัดประสิทธิภาพโมเดล Machine Learning</h1>
@@ -418,6 +449,162 @@
                                 <div class="bg-white p-4 border border-gray-300 font-semibold text-center">True Negative (TN)</div>
                             </div>
                         </div>
+
+                </div>
+                <!-- ตัวอย่าง Confusion Matrix แบบหลายคลาส (Iris Dataset) ย้ายมาด้านล่างสุด -->
+</div>
+
+<!-- ตัวอย่างการคำนวณแบบหลายคลาส (Iris Dataset) ย้ายมาด้านล่างสุดของเพจ -->
+<div class="container mx-auto px-4 py-8 mt-8 mb-8 bg-white rounded-xl shadow-md">
+    <h4 class="text-lg font-semibold text-gray-800 mb-2">ตัวอย่างการคำนวณแบบหลายคลาส (Iris Dataset)</h4>
+    <div class="overflow-x-auto mb-2">
+        <table class="min-w-full bg-white border border-gray-200 text-center">
+            <thead>
+                <tr class="bg-gray-100">
+                    <th class="py-2 px-4 border-b"></th>
+                    <th class="py-2 px-4 border-b">Predicted setosa</th>
+                    <th class="py-2 px-4 border-b">Predicted versicolor</th>
+                    <th class="py-2 px-4 border-b">Predicted virginica</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="py-2 px-4 border-b font-semibold">True setosa</td>
+                    <td class="py-2 px-4 border-b">10</td>
+                    <td class="py-2 px-4 border-b">0</td>
+                    <td class="py-2 px-4 border-b">0</td>
+                </tr>
+                <tr>
+                    <td class="py-2 px-4 border-b font-semibold">True versicolor</td>
+                    <td class="py-2 px-4 border-b">0</td>
+                    <td class="py-2 px-4 border-b">8</td>
+                    <td class="py-2 px-4 border-b">2</td>
+                </tr>
+                <tr>
+                    <td class="py-2 px-4 border-b font-semibold">True virginica</td>
+                    <td class="py-2 px-4 border-b">0</td>
+                    <td class="py-2 px-4 border-b">1</td>
+                    <td class="py-2 px-4 border-b">9</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="text-gray-700 mb-2">
+        <strong>คำอธิบายตาราง:</strong> <br>
+        <ul class="list-disc pl-5">
+            <li>แถว (True): ประเภทดอกไม้จริง</li>
+            <li>คอลัมน์ (Predicted): ประเภทดอกไม้ที่โมเดลทำนาย</li>
+            <li>ตัวเลขในตาราง: จำนวนตัวอย่างที่ถูกทำนายในแต่ละกลุ่ม</li>
+        </ul>
+    </div>
+    <div class="text-gray-700 mb-2">
+        <strong>การคำนวณค่าต่างๆ สำหรับ Iris Dataset:</strong>
+        <ol class="list-decimal pl-5">
+            <li class="mb-2">
+                <strong>Accuracy (ความแม่นยำทั้งหมด)</strong><br>
+                Accuracy = (setosa ถูก + versicolor ถูก + virginica ถูก) / ทั้งหมด<br>
+                = (10 + 8 + 9) / 30 = 27 / 30 = <span class="font-semibold">0.90 (90%)</span>
+            </li>
+            <li class="mb-2">
+                <strong>Precision (ความแม่นยำต่อประเภท)</strong><br>
+                <ul class="list-disc pl-5">
+                    <li>Setosa: Precision = 10 / (10 + 0 + 0) = 1.00 (100%)</li>
+                    <li>Versicolor: Precision = 8 / (8 + 0 + 1) = 8 / 9 = 0.89 (89%)</li>
+                    <li>Virginica: Precision = 9 / (9 + 2 + 0) = 9 / 11 = 0.82 (82%)</li>
+                </ul>
+            </li>
+            <li class="mb-2">
+                <strong>Recall (ความครอบคลุมต่อประเภท)</strong><br>
+                <ul class="list-disc pl-5">
+                    <li>Setosa: Recall = 10 / (10 + 0 + 0) = 1.00 (100%)</li>
+                    <li>Versicolor: Recall = 8 / (8 + 0 + 2) = 8 / 10 = 0.80 (80%)</li>
+                    <li>Virginica: Recall = 9 / (9 + 1 + 0) = 9 / 10 = 0.90 (90%)</li>
+                </ul>
+            </li>
+            <li class="mb-2">
+                <strong>F1-Score (ค่าเฉลี่ยของ Precision และ Recall)</strong><br>
+                <ul class="list-disc pl-5">
+                    <li>Setosa: F1 = 2 * (1.00 * 1.00) / (1.00 + 1.00) = 1.00 (100%)</li>
+                    <li>Versicolor: F1 = 2 * (0.89 * 0.80) / (0.89 + 0.80) = 0.84 (84%)</li>
+                    <li>Virginica: F1 = 2 * (0.82 * 0.90) / (0.82 + 0.90) = 0.86 (86%)</li>
+                </ul>
+            </li>
+        </ol>
+    </div>
+    <div class="text-gray-700 mb-2">
+        <strong>รายงานสรุป (Classification Report) สำหรับ Iris Dataset:</strong>
+        <div class="overflow-x-auto mt-2 mb-2">
+            <table class="min-w-full bg-white border border-gray-200 text-center">
+                <thead>
+                    <tr class="bg-gray-100">
+                        <th class="py-2 px-4 border-b"></th>
+                        <th class="py-2 px-4 border-b">precision</th>
+                        <th class="py-2 px-4 border-b">recall</th>
+                        <th class="py-2 px-4 border-b">f1-score</th>
+                        <th class="py-2 px-4 border-b">support</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="py-2 px-4 border-b font-semibold">setosa</td>
+                        <td class="py-2 px-4 border-b">1.00</td>
+                        <td class="py-2 px-4 border-b">1.00</td>
+                        <td class="py-2 px-4 border-b">1.00</td>
+                        <td class="py-2 px-4 border-b">10</td>
+                    </tr>
+                    <tr>
+                        <td class="py-2 px-4 border-b font-semibold">versicolor</td>
+                        <td class="py-2 px-4 border-b">0.89</td>
+                        <td class="py-2 px-4 border-b">0.80</td>
+                        <td class="py-2 px-4 border-b">0.84</td>
+                        <td class="py-2 px-4 border-b">10</td>
+                    </tr>
+                    <tr>
+                        <td class="py-2 px-4 border-b font-semibold">virginica</td>
+                        <td class="py-2 px-4 border-b">0.82</td>
+                        <td class="py-2 px-4 border-b">0.90</td>
+                        <td class="py-2 px-4 border-b">0.86</td>
+                        <td class="py-2 px-4 border-b">10</td>
+                    </tr>
+                    <tr class="bg-gray-50">
+                        <td class="py-2 px-4 border-b font-semibold text-right">accuracy</td>
+                        <td class="py-2 px-4 border-b" colspan="3">0.90</td>
+                        <td class="py-2 px-4 border-b">30</td>
+                    </tr>
+                    <tr>
+                        <td class="py-2 px-4 border-b font-semibold text-right">macro avg</td>
+                        <td class="py-2 px-4 border-b">0.90</td>
+                        <td class="py-2 px-4 border-b">0.90</td>
+                        <td class="py-2 px-4 border-b">0.90</td>
+                        <td class="py-2 px-4 border-b">30</td>
+                    </tr>
+                    <tr>
+                        <td class="py-2 px-4 border-b font-semibold text-right">weighted avg</td>
+                        <td class="py-2 px-4 border-b">0.90</td>
+                        <td class="py-2 px-4 border-b">0.90</td>
+                        <td class="py-2 px-4 border-b">0.90</td>
+                        <td class="py-2 px-4 border-b">30</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="text-gray-700">
+        <strong>คำอธิบายเพิ่มเติม:</strong>
+        <ul class="list-disc pl-5">
+            <li>Support: จำนวนตัวอย่างจริงในแต่ละประเภท (ทุกประเภทมี 10 ตัวอย่าง)</li>
+            <li>Macro Avg: ค่าเฉลี่ยของทุกประเภทโดยไม่คำนึงถึงขนาด (เท่ากันทุกประเภท)</li>
+            <li>Weighted Avg: ค่าเฉลี่ยถ่วงน้ำหนักตามขนาดของแต่ละประเภท (เนื่องจากทุกประเภทมีขนาดเท่ากัน จึงเท่ากับ Macro Avg)</li>
+        </ul>
+        <strong>การตีความผล:</strong>
+        <ul class="list-disc pl-5">
+            <li>Setosa: โมเดลทำนายได้สมบูรณ์แบบ (Precision และ Recall = 100%)</li>
+            <li>Versicolor: มีปัญหาเล็กน้อย โดยเฉพาะ Recall ต่ำ (80%) เนื่องจากมี 2 ตัวอย่างถูกจำแนกผิดเป็น virginica</li>
+            <li>Virginica: มี Precision ต่ำ (82%) เนื่องจากมี 2 ตัวอย่างของ versicolor ถูกจำแนกผิดเป็น virginica</li>
+            <li>โดยรวม: โมเดลมีประสิทธิภาพดีมาก (Accuracy 90%) โดยเฉพาะการจำแนก setosa ที่สมบูรณ์แบบ</li>
+        </ul>
+    </div>
+</div>
                         
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
